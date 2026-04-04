@@ -52,5 +52,5 @@ Karakata is a modern fullstack e-commerce web application built with React, Node
 
 ### Dev Tools
 - Git & GitHub
-- Thinder Client
+- Thunder Client
 - VS Code
