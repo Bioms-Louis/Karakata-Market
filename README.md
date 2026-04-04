@@ -13,6 +13,15 @@ Karakata is a modern fullstack e-commerce web application built with React, Node
 - Wishlist functionality
 - Secure checkout process
 
+### 🏪 Vendor Features
+- Vendor registration & authentication
+- Create and manage product listings
+- Upload and update product images
+- Track and manage inventory
+- View sales and product performance
+- Control product availability (in stock/out of stock)
+- Manage orders related to their products
+
 ### 🛠️ Admin Features
 - Add, update, and delete products
 - Upload product images
