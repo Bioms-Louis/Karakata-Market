@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find /c/Users/USER/Desktop/KM -name *.sql -o -name *schema* -o -name *database* -type f)",
-      "Bash(wc -l /c/Users/USER/Desktop/KM/backend/src/db/migrations/*.sql)"
-    ]
-  }
-}
