@@ -65,7 +65,7 @@ const getMe = catchAsync(async (req, res, next) => {
 });
 
 // ─────────────────────────────────────────────
-// PATCH /api/v1/auth/change-password  (protected)
+// PATCH /api/v1/(auth)/change-password  (protected)
 // ─────────────────────────────────────────────
 const changePassword = catchAsync(async (req, res, next) => {
   const { currentPassword, newPassword } = req.body;
