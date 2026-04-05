@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
-      <change afterPath="$PROJECT_DIR$/mobile/components/ScreenWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/package.json" afterDir="false" />
-    </list>
+    <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,7 +100,7 @@
       <workItem from="1775319100416" duration="1309000" />
       <workItem from="1775406436206" duration="2179000" />
       <workItem from="1775409127088" duration="2856000" />
-      <workItem from="1775412708363" duration="8589000" />
+      <workItem from="1775412708363" duration="9278000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
