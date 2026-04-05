@@ -2,8 +2,10 @@ import {View, Text} from "react-native";
 
 const products = () => {
     return (
-        <View>
-            <Text className="text-xl font-bold text-primary">Products Page</Text>
+        <View className="flex-1 items-center justify-center bg-background">
+            <Text className="text-xl font-bold text-primary">
+                All Products Page
+            </Text>
         </View>
     )
 }

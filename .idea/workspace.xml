@@ -5,37 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
-      <change afterPath="$PROJECT_DIR$/mobile/app/(auth)/login.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/(auth)/register.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/checkout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/wishlist.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/components/ScreenWrapper.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/auth/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/carousel/carousel.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/carousel/carousel.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/constants/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(auth)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/CartItem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/CategoryCard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/EmptyState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/ErrorMessage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/LoadingSpinner.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/OrderCard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/order/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/ProductCard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/ReviewCard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/components/SearchBar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/types/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/navigation/AppNavigator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/utils/formatCurrency.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/navigation/AuthNavigator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/navigation/MainNavigator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/screens/auth/LoginScreen.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/screens/auth/RegisterScreen.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/screens/home/HomeScreen.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/utils/currency.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +111,7 @@
       <workItem from="1775319100416" duration="1309000" />
       <workItem from="1775406436206" duration="2179000" />
       <workItem from="1775409127088" duration="2856000" />
-      <workItem from="1775412708363" duration="5234000" />
+      <workItem from="1775412708363" duration="8589000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
