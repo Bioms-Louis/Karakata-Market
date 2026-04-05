@@ -727,7 +727,7 @@ const Navbar = () => {
                           <div className="border-t border-gray-100 pt-1">
                             <button onClick={handleLogout}
                                     className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left">
-                              <LogOut size={15} />Sign out
+                              <LogOut size={15} />Logout
                             </button>
                           </div>
                         </div>
