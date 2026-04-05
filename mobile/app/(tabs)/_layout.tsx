@@ -1,7 +1,9 @@
 import { Tabs } from 'expo-router';
+import { colors } from "@/constants/colors"
 import { Ionicons } from '@expo/vector-icons';
-import { View, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { useRef, useEffect } from 'react';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function AnimatedIcon({ name, color, size, focused }: any) {
     const scale = useRef(new Animated.Value(1)).current;
@@ -21,6 +23,7 @@ function AnimatedIcon({ name, color, size, focused }: any) {
 }
 
 export default function TabsLayout() {
+    const insets = useSafeAreaInsets();
     return (
         <Tabs
             screenOptions={({ route }) => ({
@@ -36,7 +39,7 @@ export default function TabsLayout() {
                     left: 20,
                     right: 20,
                     elevation: 10,
-                    backgroundColor: '#3c1a5b',
+                    backgroundColor: colors.secondary,
                     borderRadius: 25,
                     height: 50,
 
