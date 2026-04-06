@@ -51,7 +51,7 @@ export default function LoginScreen(): JSX.Element {
                             />
                         </View>
                         <Text style={styles.title}>Welcome Back</Text>
-                        <Text style={styles.subtitle}>Sign in to your Karakata Market account</Text>
+                        <Text style={styles.subtitle}>Sign in to your Karakata Market Account</Text>
                     </View>
 
                     <View style={styles.form}>
@@ -118,7 +118,7 @@ export default function LoginScreen(): JSX.Element {
                         </TouchableOpacity>
 
                         <View style={styles.footer}>
-                            <Text style={styles.footerText}>Do not have an account? </Text>
+                            <Text style={styles.footerText}>Don't have an account? </Text>
                             <TouchableOpacity onPress={() => router.replace('/auth/register' as never)}>
                                 <Text style={styles.footerLink}>Create one</Text>
                             </TouchableOpacity>
@@ -144,10 +144,10 @@ const styles = StyleSheet.create({
     label:         { fontSize: 13, fontWeight: '700', color: Colors.text },
     input:         { borderWidth: 1.5, borderColor: Colors.border, borderRadius: 14,
         paddingHorizontal: 14, paddingVertical: 13,
-        fontSize: 14, color: Colors.text, backgroundColor: '#fafafa' },
+        fontSize: 14, color: Colors.text, backgroundColor: Colors.background },
     inputWrap:     { flexDirection: 'row', alignItems: 'center', borderWidth: 1.5,
-        borderColor: Colors.border, borderRadius: 14, paddingHorizontal: 14,
-        paddingVertical: 13, backgroundColor: '#fafafa' },
+        borderColor: Colors.border, borderRadius: 14, paddingHorizontal: 8,
+        paddingVertical: 6, backgroundColor: Colors.background },
     inputFlex:     { flex: 1, fontSize: 14, color: Colors.text },
     inputError:    { borderColor: Colors.error, backgroundColor: '#fff5f5' },
     error:         { fontSize: 11, color: Colors.error, marginTop: 2 },

@@ -41,8 +41,8 @@ const Carousel = ({ slides }: CarouselProps): JSX.Element => {
     if (items.length === 0) {
         return (
             <View style={[styles.carouselContainer, styles.carouselPlaceholder]}>
-                <Text style={styles.placeholderTitle}>Karakata Market</Text>
-                <Text style={styles.placeholderSub}>Your one-stop shop in Nigeria</Text>
+                <Text style={styles.placeholderTitle}>Welcome to Karakata Market</Text>
+                <Text style={styles.placeholderSub}>Your one click shop</Text>
             </View>
         );
     }
@@ -226,31 +226,32 @@ export default function HomeScreen(): JSX.Element {
         <ProductCard product={item} onPress={() => router.push(`/product/${item.slug}` as never)} />
     );
 
-    // @ts-ignore
-    // @ts-ignore
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
             {/* Header */}
             <View style={styles.header}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                     <View style={styles.logoBox}>
-                        <Text style={styles.logoText}>K</Text>
+                        <Image
+                            source={require('../../assets/images/Logo.png')}
+                            style={styles.logoImage}
+                            resizeMode="contain"
+                        />
                     </View>
                     <View>
-                        <Text style={{ fontSize: 14, fontWeight: '800', color: Colors.white }}>Karakata</Text>
-                        <Text style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>
-                            {/*Hello, {user?.first_name ?? 'Shopper'} 👋*/}
+                        <Text style={{ fontSize: 12, fontWeight: '500', color: Colors.background }}>
+                            Hello, {user?.firstName ?? 'Shopper'} 👋
                         </Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row', gap: 4 }}>
                     <TouchableOpacity style={{ padding: 8 }}
                                       onPress={() => router.push('/(tabs)/products' as never)}>
-                        <Search size={20} color={Colors.secondary} />
+                        <Search size={20} color={Colors.primary} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ padding: 8, position: 'relative' }}
                                       onPress={() => router.push('/(tabs)/cart' as never)}>
-                        <ShoppingCart size={20} color={Colors.secondary} />
+                        <ShoppingCart size={20} color={Colors.primary} />
                         {cartCount > 0 && (
                             <View style={styles.cartBadge}>
                                 <Text style={{ color: '#fff', fontSize: 9, fontWeight: 'bold' }}>
@@ -330,17 +331,17 @@ const styles = StyleSheet.create({
     container:        { flex: 1, backgroundColor: Colors.background },
     header:           { flexDirection: 'row', justifyContent: 'space-between',
         alignItems: 'center', paddingHorizontal: 16,
-        paddingVertical: 10, backgroundColor: Colors.primary },
-    logoBox:          { width: 36, height: 36, borderRadius: 10,
-        backgroundColor: Colors.secondary, alignItems: 'center', justifyContent: 'center' },
+        paddingVertical: 10, backgroundColor: Colors.secondary },
+    logoBox:          { alignItems: 'center', justifyContent: 'center' },
+    logoImage:     { width: 100, height: 100 },
     logoText:         { fontSize: 18, fontWeight: '900', color: Colors.primary },
     cartBadge:        { position: 'absolute', top: 2, right: 2, backgroundColor: Colors.error,
         borderRadius: 8, minWidth: 16, height: 16,
         alignItems: 'center', justifyContent: 'center', paddingHorizontal: 2 },
-    carouselContainer:{ height: SLIDE_HEIGHT, backgroundColor: Colors.primary, position: 'relative' },
+    carouselContainer:{ height: SLIDE_HEIGHT, backgroundColor: Colors.secondary, position: 'relative' },
     carouselPlaceholder:{ alignItems: 'center', justifyContent: 'center' },
-    placeholderTitle: { fontSize: 22, fontWeight: '900', color: Colors.secondary },
-    placeholderSub:   { fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 },
+    placeholderTitle: { fontSize: 22, fontWeight: '900', color: Colors.primary },
+    placeholderSub:   { fontSize: 13, color: Colors.background, marginTop: 4 },
     slide:            { width, height: SLIDE_HEIGHT },
     slideImg:         { width: '100%', height: '100%' },
     slidePlaceholder: { backgroundColor: '#2d1244' },
