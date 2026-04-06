@@ -1,6 +1,7 @@
 import {
     View, Text, ScrollView, TouchableOpacity, Image,
     FlatList, StyleSheet, Dimensions, RefreshControl,
+    ActivityIndicator,
 } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
@@ -10,9 +11,9 @@ import {useState, useEffect, useRef, useCallback, JSX} from 'react';
 import { getProducts, getCategories, getCarousel } from '@/src/api';
 import { formatCurrency } from '@/src/utils/formatCurrency';
 import { Colors } from '@/constants/colors';
-import useAuthStore from '../../src/store/authStore';
-import useCartStore from '../../src/store/cartStore';
-import type { Product, Category, CarouselSlide } from '../../src/types';
+import useAuthStore from '@/src/store/authStore';
+import useCartStore from '@/src/store/cartStore';
+import type { Product, Category, CarouselSlide } from '@/src/types';
 
 const { width } = Dimensions.get('window');
 const SLIDE_HEIGHT = 220;
@@ -190,37 +191,56 @@ export default function HomeScreen(): JSX.Element {
         queryFn:  getCarousel,
         select:   (res) => res.data.data.slides as CarouselSlide[],
         staleTime: 5 * 60 * 1000,
+        retry: 1,
     });
 
-    const { data: featured, refetch: r2 } = useQuery({
+    const { data: featured, refetch: r2, isLoading: loadingFeatured } = useQuery({
         queryKey: ['products', 'featured'],
         queryFn:  () => getProducts({ featured: 'true', limit: 10 }),
         select:   (res) => res.data.data.products as Product[],
+        retry: 1,
     });
 
     const { data: newArrivals, refetch: r3 } = useQuery({
         queryKey: ['products', 'new-arrivals'],
         queryFn:  () => getProducts({ sortBy: 'created_at', sortOrder: 'DESC', limit: 10 }),
         select:   (res) => res.data.data.products as Product[],
+        retry: 1,
     });
 
     const { data: electronics, refetch: r4 } = useQuery({
         queryKey: ['products', 'electronics'],
         queryFn:  () => getProducts({ category: 'electronics', limit: 10 }),
         select:   (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: menFashion, refetch: r5 } = useQuery({
+        queryKey: ['products', 'mens-fashion'],
+        queryFn:  () => getProducts({ category: 'mens-fashion', limit: 10 }),
+        select:   (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: womenFashion, refetch: r6 } = useQuery({
+        queryKey: ['products', 'womens-fashion'],
+        queryFn:  () => getProducts({ category: 'womens-fashion', limit: 10 }),
+        select:   (res) => res.data.data.products as Product[],
+        retry: 1,
     });
 
     const { data: categories } = useQuery({
         queryKey: ['categories'],
         queryFn:  getCategories,
         select:   (res) => res.data.data.categories as Category[],
+        retry: 1,
     });
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
-        await Promise.all([r1(), r2(), r3(), r4()]);
+        await Promise.all([r1(), r2(), r3(), r4(), r5(), r6()]);
         setRefreshing(false);
-    }, [r1, r2, r3, r4]);
+    }, [r1, r2, r3, r4, r5, r6]);
 
     const renderProduct = ({ item }: { item: Product }) => (
         <ProductCard product={item} onPress={() => router.push(`/product/${item.slug}` as never)} />
@@ -240,7 +260,7 @@ export default function HomeScreen(): JSX.Element {
                     </View>
                     <View>
                         <Text style={{ fontSize: 12, fontWeight: '500', color: Colors.background }}>
-                            Hello, {user?.firstName ?? 'Shopper'} 👋
+                            Hello, {user?.first_name ?? 'Shopper'} 👋
                         </Text>
                     </View>
                 </View>
@@ -270,6 +290,15 @@ export default function HomeScreen(): JSX.Element {
                 }
             >
                 <Carousel slides={slides} />
+
+                {loadingFeatured && (
+                    <View style={{ padding: 40, alignItems: 'center' }}>
+                        <ActivityIndicator size="large" color={Colors.primary} />
+                        <Text style={{ marginTop: 12, color: Colors.textLight, fontSize: 13 }}>
+                            Loading products...
+                        </Text>
+                    </View>
+                )}
 
                 {(categories?.length ?? 0) > 0 && (
                     <View style={styles.section}>
@@ -322,6 +351,26 @@ export default function HomeScreen(): JSX.Element {
                                            renderItem={renderProduct} />
                     </View>
                 )}
+
+                {(menFashion?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader title="Men's Fashion" subtitle="Trending clothing, shoes, accessories & more"
+                                       onViewAll={() => router.push('/(tabs)/products?category=mens-fashion' as never)} />
+                        <FlatList<Product> data={menFashion} horizontal showsHorizontalScrollIndicator={false}
+                                           keyExtractor={(p) => p.id} contentContainerStyle={styles.hList}
+                                           renderItem={renderProduct} />
+                    </View>
+                )}
+
+                {(womenFashion?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader title="Women's Fashion" subtitle="Dresses, shoes, handbags, jewelry & everything in between"
+                                       onViewAll={() => router.push('/(tabs)/products?category=womens-fashion' as never)} />
+                        <FlatList<Product> data={womenFashion} horizontal showsHorizontalScrollIndicator={false}
+                                           keyExtractor={(p) => p.id} contentContainerStyle={styles.hList}
+                                           renderItem={renderProduct} />
+                    </View>
+                )}
             </ScrollView>
         </SafeAreaView>
     );
@@ -331,8 +380,8 @@ const styles = StyleSheet.create({
     container:        { flex: 1, backgroundColor: Colors.background },
     header:           { flexDirection: 'row', justifyContent: 'space-between',
         alignItems: 'center', paddingHorizontal: 16,
-        paddingVertical: 10, backgroundColor: Colors.secondary },
-    logoBox:          { alignItems: 'center', justifyContent: 'center' },
+        paddingVertical: 10, backgroundColor: Colors.secondary, height: 70 },
+    logoBox:          { alignItems: 'center', justifyContent: 'center', marginRight: 12, marginTop: 50 },
     logoImage:     { width: 100, height: 100 },
     logoText:         { fontSize: 18, fontWeight: '900', color: Colors.primary },
     cartBadge:        { position: 'absolute', top: 2, right: 2, backgroundColor: Colors.error,
@@ -373,13 +422,13 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end', paddingHorizontal: 16, marginBottom: 10 },
     sectionTitle:     { fontSize: 16, fontWeight: '800', color: Colors.text },
     sectionSubtitle:  { fontSize: 11, color: Colors.textLight, marginTop: 1 },
-    viewAll:          { fontSize: 12, color: Colors.primary, fontWeight: '600' },
+    viewAll:          { fontSize: 12, color: Colors.secondary, fontWeight: '600' },
     hList:            { paddingHorizontal: 16, gap: 12 },
-    catChip:          { backgroundColor: Colors.white, paddingHorizontal: 14, paddingVertical: 9,
+    catChip:          { backgroundColor: Colors.secondary, paddingHorizontal: 14, paddingVertical: 9,
         borderRadius: 20, borderWidth: 1, borderColor: Colors.border,
         minWidth: 80, alignItems: 'center' },
     catChipText:      { fontSize: 12, fontWeight: '600', color: Colors.primary },
-    productCard:      { width: 155, backgroundColor: Colors.white, borderRadius: 14,
+    productCard:      { width: 155, backgroundColor: Colors.background, borderRadius: 14,
         overflow: 'hidden', borderWidth: 1, borderColor: Colors.border },
     productImg:       { width: '100%', height: 130 },
     discountBadge:    { position: 'absolute', top: 6, left: 6, backgroundColor: Colors.error,
@@ -389,6 +438,6 @@ const styles = StyleSheet.create({
         letterSpacing: 0.4, marginBottom: 2 },
     productName:      { fontSize: 12, fontWeight: '600', color: Colors.text,
         marginBottom: 4, lineHeight: 17 },
-    productPrice:     { fontSize: 13, fontWeight: '800', color: Colors.primary },
+    productPrice:     { fontSize: 13, fontWeight: '800', color: Colors.secondary },
     originalPrice:    { fontSize: 10, color: Colors.textLight, textDecorationLine: 'line-through' },
 });

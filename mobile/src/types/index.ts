@@ -15,28 +15,35 @@ export const getMe = () => api.get('/auth/me');
 
 // ── Products ──────────────────────────────────
 export interface ProductParams {
-    page?: number | string;
-    limit?: number | string;
+    page?: number;
+    limit?: number;
     category?: string;
     search?: string;
-    featured?: string;
+    featured?: boolean;
     sortBy?: string;
-    sortOrder?: string;
+    sortOrder?: 'asc' | 'desc';
     vendor?: string;
     brand?: string;
-    minPrice?: string;
-    maxPrice?: string;
-    rating?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    rating?: number;
 }
 
-export const getProducts   = (params?: ProductParams) => api.get('/products', { params });
-export const getProduct    = (slug: string)           => api.get(`/products/${slug}`);
+export const getProducts = async (params?: ProductParams) => {
+    const res = await api.get('/products', { params });
+    return res.data;
+};
 
-// ── Categories ────────────────────────────────
-export const getCategories = () => api.get('/categories');
+export const getProduct = async (slug: string) => {
+    const res = await api.get(`/products/${slug}`);
+    return res.data;
+};
 
 // ── Carousel ──────────────────────────────────
-export const getCarousel   = () => api.get('/carousel');
+export const getCarousel = async () => {
+    const res = await api.get('/carousel');
+    return res.data;
+};
 
 // ── Cart ──────────────────────────────────────
 export const getCart        = ()                          => api.get('/cart');

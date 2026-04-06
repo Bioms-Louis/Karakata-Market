@@ -5,26 +5,42 @@ const BASE_URL = 'http://192.168.62.204:5000/api/v1';
 
 const api = axios.create({
     baseURL: BASE_URL,
-    timeout: 10000,
+    timeout: 20000,
     headers: { 'Content-Type': 'application/json' },
 });
 
-// Attach JWT token to every request
+// Request interceptor
 api.interceptors.request.use(async (config) => {
-    const token = await AsyncStorage.getItem('accessToken');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+    console.log('🚀 REQUEST:', config.baseURL + config.url);
+
+    try {
+        const token = await AsyncStorage.getItem('accessToken');
+
+        if (!config.headers) config.headers = {};
+
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+    } catch (err) {
+        console.log('⚠️ AsyncStorage error:', err);
     }
+
     return config;
 });
 
-// Handle 401 globally
+// Response interceptor
 api.interceptors.response.use(
-    (res) => res,
+    (res) => {
+        console.log('✅ RESPONSE:', res.config.url, res.status);
+        return res;
+    },
     async (error) => {
+        console.log('❌ ERROR:', error?.response?.data || error.message);
+
         if (error.response?.status === 401) {
             await AsyncStorage.removeItem('accessToken');
         }
+
         return Promise.reject(error);
     }
 );

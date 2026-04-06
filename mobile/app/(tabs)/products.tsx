@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     vendor:      { fontSize: 9, color: Colors.textLight, textTransform: 'uppercase',
         letterSpacing: 0.5, marginBottom: 2 },
     name:        { fontSize: 12, fontWeight: '600', color: Colors.text, marginBottom: 4, lineHeight: 17 },
-    price:       { fontSize: 13, fontWeight: '800', color: Colors.primary },
+    price:       { fontSize: 13, fontWeight: '800', color: Colors.secondary },
     empty:       { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40 },
     emptyIcon:   { fontSize: 48, marginBottom: 12 },
     emptyTitle:  { fontSize: 16, fontWeight: '700', color: Colors.text, marginBottom: 6 },
