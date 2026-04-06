@@ -38,10 +38,10 @@ export default function TabsLayout() {
                     bottom: 10,
                     left: 20,
                     right: 20,
-                    elevation: 7,
+                    elevation: 10,
                     backgroundColor: Colors.secondary,
                     borderRadius: 25,
-                    height: 70,
+                    height: 55,
 
                     // Shadow (iOS)
                     shadowColor: '#000',
@@ -51,7 +51,7 @@ export default function TabsLayout() {
                 },
 
                 tabBarLabelStyle: {
-                    fontSize: 12,
+                    fontSize: 8,
                     marginBottom: 5,
                 },
 

@@ -363,7 +363,7 @@ export default function HomeScreen(): JSX.Element {
                 )}
 
                 {(womenFashion?.length ?? 0) > 0 && (
-                    <View style={[styles.section, { marginBottom: 24 }]}>
+                    <View style={[styles.section, { marginBottom: 80 }]}>
                         <SectionHeader title="Women's Fashion" subtitle="Dresses, shoes, handbags, jewelry & everything in between"
                                        onViewAll={() => router.push('/(tabs)/products?category=womens-fashion' as never)} />
                         <FlatList<Product> data={womenFashion} horizontal showsHorizontalScrollIndicator={false}
