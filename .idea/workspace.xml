@@ -5,9 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
-      <change afterPath="$PROJECT_DIR$/mobile/constants/colors.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/auth/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/carousel/carousel.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/carousel/carousel.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(auth)/_layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(auth)/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/auth/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(auth)/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/auth/register.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/checkout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/order/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/order/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/wishlist.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/wishlist.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/constants/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/constants/colors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/api/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/store/authStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/store/authStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/store/cartStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/store/cartStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/types/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/utils/formatCurrency.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/utils/formatCurrency.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +36,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="226" />
+    <option name="cachedIndexableFilesCount" value="228" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -104,7 +125,9 @@
       <workItem from="1775319100416" duration="1309000" />
       <workItem from="1775406436206" duration="2179000" />
       <workItem from="1775409127088" duration="2856000" />
-      <workItem from="1775412708363" duration="12039000" />
+      <workItem from="1775412708363" duration="12377000" />
+      <workItem from="1775425485200" duration="50000" />
+      <workItem from="1775452568639" duration="7829000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />

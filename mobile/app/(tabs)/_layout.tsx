@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { colors } from "@/constants/colors"
+import { Colors } from "@/constants/colors"
 import { Ionicons } from '@expo/vector-icons';
 import { Animated } from 'react-native';
 import { useRef, useEffect } from 'react';
@@ -29,19 +29,19 @@ export default function TabsLayout() {
             screenOptions={({ route }) => ({
                 headerShown: false,
 
-                tabBarActiveTintColor: '#ffc70e',
-                tabBarInactiveTintColor: '#f5f5f5',
+                tabBarActiveTintColor: Colors.primary,
+                tabBarInactiveTintColor: Colors.background,
 
                 // ✅ PREMIUM FLOATING STYLE
                 tabBarStyle: {
                     position: 'absolute',
-                    bottom: 50,
+                    bottom: 10,
                     left: 20,
                     right: 20,
-                    elevation: 10,
-                    backgroundColor: colors.secondary,
+                    elevation: 7,
+                    backgroundColor: Colors.secondary,
                     borderRadius: 25,
-                    height: 50,
+                    height: 70,
 
                     // Shadow (iOS)
                     shadowColor: '#000',

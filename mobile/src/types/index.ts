@@ -1,0 +1,87 @@
+import api from '../api/axios';
+
+// ── Auth ──────────────────────────────────────
+export const login    = (data: { email: string; password: string }) =>
+    api.post('/auth/login', data);
+
+export const register = (data: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}) => api.post('/auth/register', data);
+
+export const getMe = () => api.get('/auth/me');
+
+// ── Products ──────────────────────────────────
+export interface ProductParams {
+    page?: number | string;
+    limit?: number | string;
+    category?: string;
+    search?: string;
+    featured?: string;
+    sortBy?: string;
+    sortOrder?: string;
+    vendor?: string;
+    brand?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    rating?: string;
+}
+
+export const getProducts   = (params?: ProductParams) => api.get('/products', { params });
+export const getProduct    = (slug: string)           => api.get(`/products/${slug}`);
+
+// ── Categories ────────────────────────────────
+export const getCategories = () => api.get('/categories');
+
+// ── Carousel ──────────────────────────────────
+export const getCarousel   = () => api.get('/carousel');
+
+// ── Cart ──────────────────────────────────────
+export const getCart        = ()                          => api.get('/cart');
+export const addToCart      = (data: {
+    productId: string;
+    variantId?: string | null;
+    quantity: number;
+})                                                        => api.post('/cart', data);
+export const updateCartItem = (id: string, data: { quantity: number }) =>
+    api.patch(`/cart/${id}`, data);
+export const removeCartItem = (id: string)                => api.delete(`/cart/${id}`);
+export const clearCart      = ()                          => api.delete('/cart');
+
+// ── Orders ────────────────────────────────────
+export interface OrderPayload {
+    shippingName:    string;
+    shippingPhone:   string;
+    shippingAddress: string;
+    shippingCity:    string;
+    shippingState:   string;
+    shippingCountry?: string;
+    notes?:          string | null;
+}
+
+export const createOrder    = (data: OrderPayload)        => api.post('/orders', data);
+export const getOrders      = (params?: { page?: number; limit?: number; status?: string }) =>
+    api.get('/orders', { params });
+export const getOrder       = (id: string)                => api.get(`/orders/${id}`);
+export const cancelOrder    = (id: string)                => api.patch(`/orders/${id}/cancel`);
+export const getShippingFee = ()                          => api.get('/orders/shipping-fee');
+
+// ── Wishlist ──────────────────────────────────
+export const getWishlist        = ()              => api.get('/wishlist');
+export const addToWishlist      = (id: string)    => api.post('/wishlist', { product_id: id });
+export const removeFromWishlist = (id: string)    => api.delete(`/wishlist/${id}`);
+export const checkWishlisted    = (id: string)    => api.get(`/wishlist/check/${id}`);
+
+// ── Reviews ───────────────────────────────────
+export const getReviews   = (productId: string)   => api.get(`/reviews/product/${productId}`);
+export const createReview = (data: {
+    productId: string;
+    rating: number;
+    title?: string;
+    body?: string;
+})                                                => api.post('/reviews', data);
+
+export class User {
+}
