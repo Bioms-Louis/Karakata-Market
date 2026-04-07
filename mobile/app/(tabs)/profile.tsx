@@ -42,7 +42,7 @@ export default function ProfileScreen(): JSX.Element {
 
     // Navigate to Profile Settings
     const goToProfileSettings = () => {
-        router.push('/profile/settings' as never);   // We'll create this screen next if needed
+        router.push('/profile/settings' as never);
     };
 
     if (!isAuthenticated || !user) {
@@ -96,7 +96,7 @@ export default function ProfileScreen(): JSX.Element {
                     </View>
                 </View>
 
-                {/* Profile Settings - New Section */}
+                {/* Profile Settings */}
                 <View style={styles.menuSection}>
                     <Text style={styles.menuSectionTitle}>Profile Settings</Text>
                     <MenuItem
@@ -106,7 +106,7 @@ export default function ProfileScreen(): JSX.Element {
                     />
                     <MenuItem
                         icon={Phone}
-                        label="Phone Number"
+                        label="Add Phone Number"
                         onPress={() => router.push('/profile/phone' as never)}
                     />
                     <MenuItem
@@ -128,9 +128,21 @@ export default function ProfileScreen(): JSX.Element {
                 {/* Support Section */}
                 <View style={styles.menuSection}>
                     <Text style={styles.menuSectionTitle}>Support</Text>
-                    <MenuItem icon={HelpCircle} label="FAQs" onPress={() => Alert.alert('Coming Soon', 'FAQs will be available soon')} />
-                    <MenuItem icon={FileText} label="Terms & Conditions" onPress={() => Alert.alert('Coming Soon')} />
-                    <MenuItem icon={Shield} label="Privacy Policy" onPress={() => Alert.alert('Coming Soon')} />
+                    <MenuItem
+                        icon={HelpCircle}
+                        label="FAQs"
+                        onPress={() => router.push('/support/faqs' as never)}
+                    />
+                    <MenuItem
+                        icon={FileText}
+                        label="Terms & Conditions"
+                        onPress={() => router.push('/support/terms' as never)}
+                    />
+                    <MenuItem
+                        icon={Shield}
+                        label="Privacy Policy"
+                        onPress={() => router.push('/support/privacy' as never)}
+                    />
                 </View>
 
                 {/* Logout */}

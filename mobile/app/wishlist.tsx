@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5, marginBottom: 2 },
     name:         { fontSize: 13, fontWeight: '600', color: Colors.text,
         lineHeight: 18, marginBottom: 6 },
-    price:        { fontSize: 14, fontWeight: '800', color: Colors.primary },
+    price:        { fontSize: 14, fontWeight: '800', color: Colors.secondary },
     originalPrice:{ fontSize: 11, color: Colors.textLight, textDecorationLine: 'line-through' },
     actions:      { flexDirection: 'row', alignItems: 'center', gap: 8 },
     addCartBtn:   { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 5,
