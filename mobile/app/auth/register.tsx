@@ -1,6 +1,7 @@
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
-    KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Image } from 'react-native';
+    KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Image, Alert
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
@@ -30,12 +31,30 @@ export default function RegisterScreen(): JSX.Element {
     const registerMutation = useMutation({
         mutationFn: registerUser,
         onSuccess: (res) => {
-            const { token, user } = res.data.data as { token: string; user: User };
-            void authLogin(token, user);
-            router.replace('/(tabs)' as never);
+            const apiData = res.data?.data;
+
+            const token = apiData?.accessToken;
+            const user = apiData?.user;
+
+            if (!token || !user) {
+                Alert.alert('Registration Error', 'Invalid response from server.');
+                return;
+            }
+
+            authLogin(token, user)
+                .then(() => {
+                    if (router.canGoBack()) {
+                        router.back();
+                    } else {
+                        router.replace('/(tabs)');
+                    }
+                });
         },
         onError: (e: any) => {
-            alert(e.response?.data?.message ?? 'Registration failed. Please try again.');
+            Alert.alert(
+                'Login Failed',
+                e.response?.data?.message || 'Invalid email or password. Please try again.'
+            );
         },
     });
 

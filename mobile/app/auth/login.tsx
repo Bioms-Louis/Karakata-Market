@@ -1,6 +1,6 @@
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
-    KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Image,
+    KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Image, Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
@@ -28,12 +28,36 @@ export default function LoginScreen(): JSX.Element {
     const loginMutation = useMutation({
         mutationFn: login,
         onSuccess: (res) => {
-            const { token, user } = res.data.data as { token: string; user: User };
-            void authLogin(token, user);
-            router.replace('/(tabs)' as never);
+            const apiData = res.data?.data;   // This is the inner "data" object
+
+            const token = apiData?.accessToken;   // Note: accessToken (not token)
+            const user = apiData?.user;
+
+            if (!token || !user) {
+                Alert.alert('Login Error', 'Invalid response from server. Please try again.');
+                console.error('Bad login response:', res.data);
+                return;
+            }
+
+            // Call the fixed authStore login
+            authLogin(token, user)
+                .then(() => {
+                    Alert.alert('Success', 'Login successful!');
+                    if (router.canGoBack()) {
+                        router.back();           // Go back to product page (best UX)
+                    } else {
+                        router.replace('/(tabs)');
+                    }
+                })
+                .catch((e) => {
+                    Alert.alert('Error', 'Failed to save session');
+                });
         },
         onError: (e: any) => {
-            alert(e.response?.data?.message ?? 'Login failed. Please try again.');
+            Alert.alert(
+                'Login Failed',
+                e.response?.data?.message || 'Invalid email or password'
+            );
         },
     });
 

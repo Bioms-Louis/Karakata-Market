@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/auth/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/auth/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/auth/register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/store/authStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/store/authStore.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +114,7 @@
       <workItem from="1775464668288" duration="12472000" />
       <workItem from="1775490180627" duration="552000" />
       <workItem from="1775490865808" duration="7525000" />
-      <workItem from="1775544270428" duration="6160000" />
+      <workItem from="1775544270428" duration="8596000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />

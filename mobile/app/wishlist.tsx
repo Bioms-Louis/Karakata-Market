@@ -45,7 +45,7 @@ export default function WishlistScreen(): JSX.Element {
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}><Text style={styles.headerTitle}>My Wishlist</Text></View>
                 <View style={styles.center}>
-                    <Heart size={60} color={Colors.primary} opacity={0.3} />
+                    <Heart size={60} color={Colors.primary} opacity={0.7} />
                     <Text style={styles.emptyTitle}>Sign in to view wishlist</Text>
                     <TouchableOpacity style={styles.btn} onPress={() => router.push('/auth/login' as never)}>
                         <Text style={styles.btnText}>Sign In</Text>
@@ -68,7 +68,7 @@ export default function WishlistScreen(): JSX.Element {
                 <ActivityIndicator color={Colors.primary} style={{ marginTop: 40 }} size="large" />
             ) : items.length === 0 ? (
                 <View style={styles.center}>
-                    <Heart size={60} color={Colors.primary} opacity={0.3} />
+                    <Heart size={60} color={Colors.primary} opacity={0.7} />
                     <Text style={styles.emptyTitle}>Your wishlist is empty</Text>
                     <Text style={styles.emptyText}>Save items you love to find them later</Text>
                     <TouchableOpacity style={styles.btn} onPress={() => router.push('/(tabs)/products' as never)}>
@@ -133,8 +133,8 @@ export default function WishlistScreen(): JSX.Element {
 const styles = StyleSheet.create({
     container:    { flex: 1, backgroundColor: Colors.background },
     header:       { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-        paddingHorizontal: 16, paddingVertical: 14, backgroundColor: Colors.primary },
-    headerTitle:  { fontSize: 20, fontWeight: '800', color: Colors.white },
+        paddingHorizontal: 16, paddingVertical: 14, backgroundColor: Colors.secondary },
+    headerTitle:  { fontSize: 20, fontWeight: '800', color: Colors.primary },
     headerCount:  { fontSize: 13, color: Colors.secondary, fontWeight: '600' },
     center:       { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
     emptyTitle:   { fontSize: 18, fontWeight: '700', color: Colors.text, marginTop: 16, marginBottom: 6 },
