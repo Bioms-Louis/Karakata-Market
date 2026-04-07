@@ -7,12 +7,12 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ShoppingCart, Heart, Star, Plus, Minus, Store } from 'lucide-react-native';
 import {JSX, useState } from 'react';
-import { getProduct, addToCart, addToWishlist, removeFromWishlist, checkWishlisted } from '../../src/api';
+import { getProduct, addToCart, addToWishlist, removeFromWishlist, checkWishlisted } from '@/src/api';
 import { formatCurrency } from '@/src/utils/formatCurrency';
 import { Colors } from '@/constants/colors';
-import useAuthStore from '../../src/store/authStore';
-import useCartStore from '../../src/store/cartStore';
-import type { Product, ProductVariant } from '../../src/types';
+import useAuthStore from '@/src/store/authStore';
+import useCartStore from '@/src/store/cartStore';
+import type { Product, ProductVariant } from '@/src/types';
 
 const { width } = Dimensions.get('window');
 
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     name:             { fontSize: 18, fontWeight: '800', color: Colors.text,
         lineHeight: 24, marginBottom: 8 },
     reviewCount:      { fontSize: 12, color: Colors.textLight, marginLeft: 4 },
-    price:            { fontSize: 22, fontWeight: '900', color: Colors.primary },
+    price:            { fontSize: 22, fontWeight: '900', color: Colors.secondary },
     originalPrice:    { fontSize: 14, color: Colors.textLight, textDecorationLine: 'line-through' },
     section:          { marginBottom: 16 },
     sectionLabel:     { fontSize: 13, fontWeight: '700', color: Colors.text, marginBottom: 8 },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     description:      { fontSize: 14, color: Colors.textLight, lineHeight: 22 },
     bottomBar:        { flexDirection: 'row', alignItems: 'center',
         justifyContent: 'space-between', padding: 16 },
-    bottomPrice:      { fontSize: 20, fontWeight: '900', color: Colors.primary },
+    bottomPrice:      { fontSize: 20, fontWeight: '900', color: Colors.secondary },
     bottomOriginal:   { fontSize: 12, color: Colors.textLight, textDecorationLine: 'line-through' },
     addCartBtn:       { flexDirection: 'row', alignItems: 'center', gap: 8,
         backgroundColor: Colors.secondary, borderRadius: 14,

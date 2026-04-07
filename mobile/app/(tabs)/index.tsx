@@ -258,11 +258,11 @@ export default function HomeScreen(): JSX.Element {
                             resizeMode="contain"
                         />
                     </View>
-                    <View>
-                        <Text style={{ fontSize: 12, fontWeight: '500', color: Colors.background }}>
-                            Hello, {user?.first_name ?? 'Shopper'} 👋
-                        </Text>
-                    </View>
+                    {/*<View>*/}
+                    {/*    <Text style={{ fontSize: 12, fontWeight: '500', color: Colors.background }}>*/}
+                    {/*        Hello, {user?.first_name ?? 'Shopper'} 👋*/}
+                    {/*    </Text>*/}
+                    {/*</View>*/}
                 </View>
                 <View style={{ flexDirection: 'row', gap: 4 }}>
                     <TouchableOpacity style={{ padding: 8 }}

@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="228" />
+    <option name="cachedIndexableFilesCount" value="229" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -76,8 +79,10 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\USER\Desktop\KM\mobile\app\(tabs)" />
       <recent name="C:\Users\USER\Desktop\KM\mobile\app" />
+      <recent name="C:\Users\USER\Desktop\KM\mobile\app\(tabs)\product" />
+      <recent name="C:\Users\USER\Desktop\KM\mobile\app\(tabs)\product\(details)" />
+      <recent name="C:\Users\USER\Desktop\KM\mobile\app\(tabs)" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -105,6 +110,10 @@
       <workItem from="1775412708363" duration="12377000" />
       <workItem from="1775425485200" duration="50000" />
       <workItem from="1775452568639" duration="11618000" />
+      <workItem from="1775464668288" duration="12472000" />
+      <workItem from="1775490180627" duration="552000" />
+      <workItem from="1775490865808" duration="7525000" />
+      <workItem from="1775544270428" duration="454000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -128,9 +137,30 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update" />
     <MESSAGE value="Update." />
     <option name="LAST_COMMIT_MESSAGE" value="Update." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/mobile/app/(tabs)/index.tsx</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
