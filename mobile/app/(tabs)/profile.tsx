@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         alignItems: 'center', justifyContent: 'center' },
     avatarText:       { fontSize: 22, fontWeight: '900', color: Colors.secondary },
     userInfo:         { flex: 1 },
-    userName:         { fontSize: 16, fontWeight: '800', color: Colors.text },
+    userName:         { fontSize: 16, fontWeight: '800', color: Colors.textLight },
     userEmail:        { fontSize: 12, color: Colors.textLight, marginVertical: 2 },
     roleBadge:        { alignSelf: 'flex-start', backgroundColor: '#f5f0fa',
         paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8 },
