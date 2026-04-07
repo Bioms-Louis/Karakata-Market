@@ -92,3 +92,12 @@ export const createReview = (data: {
 
 export class User {
 }
+
+export class Product {
+}
+
+export class Category {
+}
+
+export class CarouselSlide {
+}

@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
+      <change afterPath="$PROJECT_DIR$/mobile/app/profile/addresses.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/app/profile/phone.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/app/profile/settings.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +116,7 @@
       <workItem from="1775464668288" duration="12472000" />
       <workItem from="1775490180627" duration="552000" />
       <workItem from="1775490865808" duration="7525000" />
-      <workItem from="1775544270428" duration="11088000" />
+      <workItem from="1775544270428" duration="18978000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />

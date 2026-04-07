@@ -1,20 +1,20 @@
 import {
     View, Text, TouchableOpacity, StyleSheet,
-    ScrollView, Alert,
+    ScrollView, Alert, Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
     User, Package, Heart, LogOut, ChevronRight,
-    HelpCircle, FileText, Shield,
+    HelpCircle, FileText, Shield, Settings, Phone, MapPin,
 } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
 import useAuthStore from '../../src/store/authStore';
 import { JSX } from "react";
 
 interface MenuItemProps {
-    icon:    React.ComponentType<{ size: number; color: string }>;
-    label:   string;
+    icon: React.ComponentType<{ size: number; color: string }>;
+    label: string;
     onPress: () => void;
     danger?: boolean;
 }
@@ -40,7 +40,12 @@ export default function ProfileScreen(): JSX.Element {
         ]);
     };
 
-    if (!isAuthenticated) {
+    // Navigate to Profile Settings
+    const goToProfileSettings = () => {
+        router.push('/profile/settings' as never);   // We'll create this screen next if needed
+    };
+
+    if (!isAuthenticated || !user) {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}><Text style={styles.headerTitle}>My Profile</Text></View>
@@ -65,26 +70,53 @@ export default function ProfileScreen(): JSX.Element {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}><Text style={styles.headerTitle}>My Profile</Text></View>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.header}>
+                <Text style={styles.headerTitle}>My Profile</Text>
+            </View>
 
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+
+                {/* User Card */}
                 <View style={styles.userCard}>
                     <View style={styles.avatar}>
                         <Text style={styles.avatarText}>
-                            {user?.firstName?.[0]?.toUpperCase() ?? 'U'}
+                            {user?.first_name?.[0]?.toUpperCase() ?? user?.last_name?.[0]?.toUpperCase() ?? 'U'}
                         </Text>
                     </View>
                     <View style={styles.userInfo}>
-                        <Text style={styles.userName}>{user?.firstName} {user?.lastName}</Text>
+                        <Text style={styles.userName}>{user?.first_name} {user?.last_name}</Text>
                         <Text style={styles.userEmail}>{user?.email}</Text>
-                        <View style={styles.roleBadge}>
-                            <Text style={styles.roleText}>
-                                {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : ''}
-                            </Text>
-                        </View>
+                        {user?.role && (
+                            <View style={styles.roleBadge}>
+                                <Text style={styles.roleText}>
+                                    {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                                </Text>
+                            </View>
+                        )}
                     </View>
                 </View>
 
+                {/* Profile Settings - New Section */}
+                <View style={styles.menuSection}>
+                    <Text style={styles.menuSectionTitle}>Profile Settings</Text>
+                    <MenuItem
+                        icon={Settings}
+                        label="Edit Profile"
+                        onPress={goToProfileSettings}
+                    />
+                    <MenuItem
+                        icon={Phone}
+                        label="Phone Number"
+                        onPress={() => router.push('/profile/phone' as never)}
+                    />
+                    <MenuItem
+                        icon={MapPin}
+                        label="Addresses"
+                        onPress={() => router.push('/profile/addresses' as never)}
+                    />
+                </View>
+
+                {/* Account Section */}
                 <View style={styles.menuSection}>
                     <Text style={styles.menuSectionTitle}>Account</Text>
                     <MenuItem icon={Package} label="My Orders"
@@ -93,13 +125,15 @@ export default function ProfileScreen(): JSX.Element {
                               onPress={() => router.push('/wishlist' as never)} />
                 </View>
 
+                {/* Support Section */}
                 <View style={styles.menuSection}>
                     <Text style={styles.menuSectionTitle}>Support</Text>
-                    <MenuItem icon={HelpCircle} label="FAQs" onPress={() => {}} />
-                    <MenuItem icon={FileText} label="Terms & Conditions" onPress={() => {}} />
-                    <MenuItem icon={Shield} label="Privacy Policy" onPress={() => {}} />
+                    <MenuItem icon={HelpCircle} label="FAQs" onPress={() => Alert.alert('Coming Soon', 'FAQs will be available soon')} />
+                    <MenuItem icon={FileText} label="Terms & Conditions" onPress={() => Alert.alert('Coming Soon')} />
+                    <MenuItem icon={Shield} label="Privacy Policy" onPress={() => Alert.alert('Coming Soon')} />
                 </View>
 
+                {/* Logout */}
                 <View style={styles.menuSection}>
                     <MenuItem icon={LogOut} label="Log Out" onPress={handleLogout} danger />
                 </View>
@@ -114,6 +148,7 @@ const styles = StyleSheet.create({
     container:        { flex: 1, backgroundColor: Colors.background },
     header:           { paddingHorizontal: 16, paddingVertical: 14, backgroundColor: Colors.secondary },
     headerTitle:      { fontSize: 20, fontWeight: '800', color: Colors.primary },
+
     guestContainer:   { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
     guestAvatar:      { width: 80, height: 80, borderRadius: 40, backgroundColor: '#f5f0fa',
         alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
@@ -125,6 +160,7 @@ const styles = StyleSheet.create({
     registerBtn:      { width: '100%', borderWidth: 2, borderColor: Colors.primary,
         paddingVertical: 14, borderRadius: 14, alignItems: 'center' },
     registerBtnText:  { color: Colors.primary, fontWeight: '800', fontSize: 15 },
+
     userCard:         { flexDirection: 'row', alignItems: 'center', gap: 14, margin: 16,
         backgroundColor: Colors.white, borderRadius: 16, padding: 16,
         borderWidth: 1, borderColor: Colors.border },
@@ -132,22 +168,23 @@ const styles = StyleSheet.create({
         alignItems: 'center', justifyContent: 'center' },
     avatarText:       { fontSize: 22, fontWeight: '900', color: Colors.secondary },
     userInfo:         { flex: 1 },
-    userName:         { fontSize: 16, fontWeight: '800', color: Colors.textLight },
-    userEmail:        { fontSize: 12, color: Colors.textLight, marginVertical: 2 },
-    roleBadge:        { alignSelf: 'flex-start', backgroundColor: '#f5f0fa',
-        paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8 },
-    roleText:         { fontSize: 10, fontWeight: '700', color: Colors.primary },
+    userName:         { fontSize: 14, fontWeight: '800', color: Colors.textLight },
+    userEmail:        { fontSize: 13, color: Colors.textLight, marginVertical: 4 },
+    roleBadge:        { alignSelf: 'flex-start', backgroundColor: Colors.secondary,
+        paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 },
+    roleText:         { fontSize: 11, fontWeight: '700', color: Colors.primary },
+
     menuSection:      { backgroundColor: Colors.white, marginHorizontal: 16, marginBottom: 12,
         borderRadius: 16, borderWidth: 1, borderColor: Colors.border, overflow: 'hidden' },
     menuSectionTitle: { fontSize: 11, fontWeight: '700', color: Colors.textLight,
         textTransform: 'uppercase', letterSpacing: 0.8,
-        paddingHorizontal: 16, paddingTop: 12, paddingBottom: 4 },
+        paddingHorizontal: 16, paddingTop: 14, paddingBottom: 6 },
     menuItem:         { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16,
-        paddingVertical: 14, borderTopWidth: 1, borderTopColor: Colors.border },
-    menuIcon:         { width: 34, height: 34, borderRadius: 10, backgroundColor: '#f5f0fa',
+        paddingVertical: 16, borderTopWidth: 1, borderTopColor: Colors.border },
+    menuIcon:         { width: 36, height: 36, borderRadius: 10, backgroundColor: '#f5f0fa',
         alignItems: 'center', justifyContent: 'center' },
     menuIconDanger:   { backgroundColor: '#fee2e2' },
-    menuLabel:        { flex: 1, fontSize: 14, fontWeight: '600', color: Colors.text },
+    menuLabel:        { flex: 1, fontSize: 15, fontWeight: '600', color: Colors.text },
     menuLabelDanger:  { color: Colors.error },
-    version:          { textAlign: 'center', fontSize: 11, color: Colors.textLight, paddingVertical: 20 },
+    version:          { textAlign: 'center', fontSize: 11, color: Colors.textLight, paddingVertical: 24, marginBottom: 24 },
 });

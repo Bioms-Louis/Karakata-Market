@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
-import { Colors } from "@/constants/colors"
+import { Colors } from "@/constants/colors";
 import { Ionicons } from '@expo/vector-icons';
-import { Animated } from 'react-native';
+import { Animated, Platform, View } from 'react-native';
 import { useRef, useEffect } from 'react';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -12,6 +12,8 @@ function AnimatedIcon({ name, color, size, focused }: any) {
         Animated.spring(scale, {
             toValue: focused ? 1.2 : 1,
             useNativeDriver: true,
+            tension: 80,
+            friction: 8,
         }).start();
     }, [focused]);
 
@@ -24,6 +26,7 @@ function AnimatedIcon({ name, color, size, focused }: any) {
 
 export default function TabsLayout() {
     const insets = useSafeAreaInsets();
+
     return (
         <Tabs
             screenOptions={({ route }) => ({
@@ -32,59 +35,60 @@ export default function TabsLayout() {
                 tabBarActiveTintColor: Colors.primary,
                 tabBarInactiveTintColor: Colors.background,
 
-                // ✅ PREMIUM FLOATING STYLE
                 tabBarStyle: {
                     position: 'absolute',
-                    bottom: 10,
-                    left: 20,
-                    right: 20,
-                    elevation: 10,
+                    bottom: Math.max(insets.bottom, 8),
+                    left: 16,
+                    right: 16,
+                    elevation: 12,
                     backgroundColor: Colors.secondary,
                     borderRadius: 25,
-                    height: 55,
+                    height: 58,
+                    paddingBottom: Platform.OS === 'ios' ? 0 : 4,
 
-                    // Shadow (iOS)
-                    shadowColor: '#000',
-                    shadowOpacity: 0.1,
-                    shadowOffset: { width: 0, height: 5 },
-                    shadowRadius: 10,
+                    // Shadow
+                    shadowColor: '#fff',
+                    shadowOpacity: 0.12,
+                    shadowOffset: { width: 0, height: 6 },
+                    shadowRadius: 12,
                 },
 
                 tabBarLabelStyle: {
-                    fontSize: 8,
-                    marginBottom: 5,
+                    fontSize: 10,
+                    fontWeight: '600',
+                    marginBottom: 4,
                 },
 
                 tabBarItemStyle: {
-                    paddingVertical: 5,
+                    paddingTop: 6,
+                    paddingBottom: 4,
                 },
 
-                // ✅ ICONS WITH ANIMATION
+                // Animated Icons
                 tabBarIcon: ({ color, size, focused }) => {
                     let iconName: keyof typeof Ionicons.glyphMap;
 
-                    if (route.name === 'index') {
-                        iconName = focused ? 'home' : 'home-outline';
-                    } else if (route.name === 'products') {
-                        iconName = focused ? 'grid' : 'grid-outline';
-                    } else if (route.name === 'cart') {
-                        iconName = focused ? 'cart' : 'cart-outline';
-                    } else if (route.name === 'orders') {
-                        iconName = focused ? 'receipt' : 'receipt-outline';
-                    } else if (route.name === 'profile') {
-                        iconName = focused ? 'person' : 'person-outline';
-                    } else {
-                        iconName = 'ellipse';
+                    switch (route.name) {
+                        case 'index':
+                            iconName = focused ? 'home' : 'home-outline';
+                            break;
+                        case 'products':
+                            iconName = focused ? 'grid' : 'grid-outline';
+                            break;
+                        case 'cart':
+                            iconName = focused ? 'cart' : 'cart-outline';
+                            break;
+                        case 'orders':
+                            iconName = focused ? 'receipt' : 'receipt-outline';
+                            break;
+                        case 'profile':
+                            iconName = focused ? 'person' : 'person-outline';
+                            break;
+                        default:
+                            iconName = 'ellipse';
                     }
 
-                    return (
-                        <AnimatedIcon
-                            name={iconName}
-                            size={size}
-                            color={color}
-                            focused={focused}
-                        />
-                    );
+                    return <AnimatedIcon name={iconName} size={size} color={color} focused={focused} />;
                 },
             })}
         >
@@ -93,6 +97,6 @@ export default function TabsLayout() {
             <Tabs.Screen name="cart" options={{ title: 'Cart' }} />
             <Tabs.Screen name="orders" options={{ title: 'Orders' }} />
             <Tabs.Screen name="profile" options={{ title: 'Profile' }} />
-         </Tabs>
+        </Tabs>
     );
 }

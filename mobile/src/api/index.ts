@@ -1,4 +1,5 @@
 import api from './axios';
+import axios from "axios";
 
 // ── Auth ──────────────────────────────────────
 export const login    = (data: { email: string; password: string }) =>
@@ -82,3 +83,21 @@ export const createReview = (data: {
     title?: string;
     body?: string;
 })                                                => api.post('/reviews', data);
+
+export const updateProfile = (data: { firstName: string; lastName: string }) =>
+    axios.put('/api/v1/user/profile', data);
+
+export const changePassword = (data: { currentPassword: string; newPassword: string }) =>
+    axios.put('/api/v1/user/change-password', data);
+
+export const updatePhone = (data: { phoneNumber: string }) =>
+    axios.put('/api/v1/user/phone', data);
+
+export const getAddresses = () => axios.get('/api/v1/user/addresses');
+export const deleteAddress = (id: string) => axios.delete(`/api/v1/user/addresses/${id}`);
+
+export class Product {
+}
+
+export class Category {
+}
