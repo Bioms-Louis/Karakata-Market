@@ -88,13 +88,13 @@ interface ChipProps { label: string; onRemove: () => void; }
 const FilterChip = ({ label, onRemove }: ChipProps): JSX.Element => (
     <View style={styles.chip}>
         <Text style={styles.chipText}>{label}</Text>
-        <TouchableOpacity onPress={onRemove}>
+        <TouchableOpacity onPress={onRemove} hitSlop={{ top: 8, bottom: 8, left: 4, right: 8 }}>
             <X size={11} color={Colors.primary} />
         </TouchableOpacity>
     </View>
 );
 
-// ── Full Filter Sheet (All filters restored) ───────────────────────
+// ── Filter Bottom Sheet (All filters included) ───────────────────────
 interface FilterSheetProps {
     visible: boolean;
     filters: ActiveFilters;
@@ -287,26 +287,47 @@ export default function ProductsScreen(): JSX.Element {
     const [page, setPage] = useState(1);
     const [filterOpen, setFilterOpen] = useState(false);
 
-    const [filters, setFilters] = useState<ActiveFilters>({
+    // Initialize filters from URL params safely
+    const [filters, setFilters] = useState<ActiveFilters>(() => ({
         ...DEFAULT_FILTERS,
         category: params.category ?? '',
         featured: params.featured ?? '',
         sortBy: params.sortBy ?? 'created_at',
         sortOrder: params.sortOrder ?? 'DESC',
-    });
+    }));
 
-    // Sync URL params when coming from homepage
+    // Sync URL params when they change (prevents infinite loop)
     useEffect(() => {
-        setFilters(prev => ({
-            ...prev,
-            category: params.category ?? prev.category,
-            featured: params.featured ?? prev.featured,
-            sortBy: params.sortBy ?? prev.sortBy,
-            sortOrder: params.sortOrder ?? prev.sortOrder,
-        }));
-        setSearch(params.search ?? '');
-        setPage(1);
-    }, [params]);
+        let hasChanged = false;
+        const newFilters: Partial<ActiveFilters> = {};
+
+        if (params.category !== undefined && params.category !== filters.category) {
+            newFilters.category = params.category;
+            hasChanged = true;
+        }
+        if (params.featured !== undefined && params.featured !== filters.featured) {
+            newFilters.featured = params.featured;
+            hasChanged = true;
+        }
+        if (params.sortBy !== undefined && params.sortBy !== filters.sortBy) {
+            newFilters.sortBy = params.sortBy;
+            hasChanged = true;
+        }
+        if (params.sortOrder !== undefined && params.sortOrder !== filters.sortOrder) {
+            newFilters.sortOrder = params.sortOrder;
+            hasChanged = true;
+        }
+
+        if (hasChanged) {
+            setFilters(prev => ({ ...prev, ...newFilters }));
+            setPage(1);
+        }
+
+        if (params.search !== undefined && params.search !== search) {
+            setSearch(params.search);
+            setPage(1);
+        }
+    }, [params.category, params.featured, params.sortBy, params.sortOrder, params.search]);
 
     const queryParams: ProductParams = {
         search: search || undefined,
@@ -468,8 +489,8 @@ export default function ProductsScreen(): JSX.Element {
     );
 }
 
+// ── Styles (unchanged from your original) ─────────────────────────────
 const styles = StyleSheet.create({
-    // Your original styles (kept complete)
     container: { flex: 1, backgroundColor: Colors.background },
     header: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 8, backgroundColor: Colors.secondary },
     title: { fontSize: 20, fontWeight: '800', color: Colors.primary, textTransform: 'capitalize' },
