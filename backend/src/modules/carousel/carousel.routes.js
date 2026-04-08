@@ -4,7 +4,6 @@ const { query } = require('../../config/database');
 const catchAsync = require('../../utils/catchAsync');
 const { sendSuccess } = require('../../utils/apiResponse');
 
-// GET /api/v1/carousel  — public, no auth needed
 router.get('/', catchAsync(async (req, res) => {
   const result = await query(
     `SELECT id, image_url, headline, description, badge,

@@ -465,12 +465,12 @@ export default function ProductsScreen(): JSX.Element {
                             <View style={styles.pagination}>
                                 <TouchableOpacity style={[styles.pageBtn, !pagination.hasPrevPage && styles.pageBtnDisabled]}
                                                   onPress={() => setPage(p => Math.max(1, p - 1))} disabled={!pagination.hasPrevPage}>
-                                    <ChevronLeft size={18} color={!pagination.hasPrevPage ? '#999' : '#fff'} />
+                                    <ChevronLeft size={18} color={!pagination.hasPrevPage ? '#999' : '#ffc70e'} />
                                 </TouchableOpacity>
                                 <Text style={styles.pageIndicator}>{page} / {pagination.totalPages}</Text>
                                 <TouchableOpacity style={[styles.pageBtn, !pagination.hasNextPage && styles.pageBtnDisabled]}
                                                   onPress={() => setPage(p => p + 1)} disabled={!pagination.hasNextPage}>
-                                    <ChevronRight size={18} color={!pagination.hasNextPage ? '#999' : '#fff'} />
+                                    <ChevronRight size={18} color={!pagination.hasNextPage ? '#999' : '#ffc70e'} />
                                 </TouchableOpacity>
                             </View>
                         ) : null
@@ -499,7 +499,7 @@ const styles = StyleSheet.create({
     searchRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16, paddingVertical: 10, backgroundColor: Colors.secondary },
     searchBox: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: Colors.white, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12 },
     searchInput: { flex: 1, fontSize: 14, color: Colors.text },
-    filterBtn: { width: 44, height: 44, borderRadius: 12, backgroundColor: Colors.white, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+    filterBtn: { width: 44, height: 44, borderRadius: 12, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', position: 'relative' },
     filterBtnActive: { backgroundColor: '#f0ebf8' },
     filterCount: { position: 'absolute', top: -4, right: -4, width: 18, height: 18, borderRadius: 9, backgroundColor: Colors.error, alignItems: 'center', justifyContent: 'center' },
     filterCountText: { color: '#fff', fontSize: 10, fontWeight: 'bold' },
@@ -530,9 +530,9 @@ const styles = StyleSheet.create({
     clearFiltersBtnText: { color: Colors.primary, fontWeight: '800', fontSize: 14 },
 
     pagination: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 80, paddingHorizontal: 16 },
-    pageBtn: { paddingHorizontal: 20, paddingVertical: 12, backgroundColor: Colors.primary, borderRadius: 12, minWidth: 90, alignItems: 'center' },
+    pageBtn: { paddingHorizontal: 20, paddingVertical: 12, backgroundColor: Colors.secondary, borderRadius: 12, minWidth: 90, alignItems: 'center' },
     pageBtnDisabled: { backgroundColor: Colors.border },
-    pageBtnText: { color: '#fff', fontWeight: '700' },
+    pageBtnText: { color: Colors.primary, fontWeight: '700' },
     pageIndicator: { fontSize: 14, fontWeight: '700', color: Colors.text, alignSelf: 'center' },
 
     // Filter Sheet Styles
@@ -564,19 +564,19 @@ const styles = StyleSheet.create({
 
     priceRow: { flexDirection: 'row', alignItems: 'flex-end', gap: 10 },
     priceLabel: { fontSize: 11, color: Colors.textLight, marginBottom: 5 },
-    priceInput: { borderWidth: 1.5, borderColor: Colors.border, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 11, fontSize: 14, color: Colors.text, backgroundColor: '#fafafa' },
+    priceInput: { borderWidth: 1.5, borderColor: Colors.border, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 11, fontSize: 14, color: Colors.text, backgroundColor: Colors.background },
     priceDash: { width: 12, height: 1.5, backgroundColor: Colors.border, marginBottom: 18 },
 
-    brandInput: { borderWidth: 1.5, borderColor: Colors.border, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 11, fontSize: 14, color: Colors.text, backgroundColor: '#fafafa' },
+    brandInput: { borderWidth: 1.5, borderColor: Colors.border, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 11, fontSize: 14, color: Colors.text, backgroundColor: Colors.background },
 
     ratingRow: { flexDirection: 'row', gap: 8 },
     ratingChip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 20, borderWidth: 1.5, borderColor: Colors.border },
-    ratingChipActive: { borderColor: Colors.primary, backgroundColor: '#f0ebf8' },
+    ratingChipActive: { borderColor: Colors.primary, backgroundColor: Colors.secondary },
     ratingChipText: { fontSize: 12, color: Colors.textLight },
     ratingChipTextActive: { color: Colors.primary, fontWeight: '700' },
 
     featuredToggle: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 14, paddingHorizontal: 14, borderRadius: 12, borderWidth: 1.5, borderColor: Colors.border, marginTop: 8 },
-    featuredToggleActive: { borderColor: Colors.primary, backgroundColor: '#f0ebf8' },
+    featuredToggleActive: { borderColor: Colors.primary, backgroundColor: Colors.secondary },
     featuredToggleText: { fontSize: 14, color: Colors.textLight },
     featuredToggleTextActive: { color: Colors.primary, fontWeight: '600' },
 });

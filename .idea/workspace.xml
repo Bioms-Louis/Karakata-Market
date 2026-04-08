@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/config/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/config/database.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/carousel/carousel.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/carousel/carousel.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/products.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="227" />
+    <option name="cachedIndexableFilesCount" value="228" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -112,7 +114,8 @@
       <workItem from="1775490180627" duration="552000" />
       <workItem from="1775490865808" duration="7525000" />
       <workItem from="1775544270428" duration="22953000" />
-      <workItem from="1775632881279" duration="1657000" />
+      <workItem from="1775632881279" duration="2325000" />
+      <workItem from="1775637908282" duration="5854000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -135,6 +138,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
