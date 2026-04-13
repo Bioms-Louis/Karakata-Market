@@ -1,182 +1,139 @@
 import {
     View, Text, TouchableOpacity, StyleSheet,
-    ScrollView, Alert, FlatList,
+    FlatList, ActivityIndicator,
 } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, Plus, MapPin, Trash2, Edit } from 'lucide-react-native';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { ChevronLeft, MapPin, Package } from 'lucide-react-native';
 import { JSX } from 'react';
-
-import { getAddresses, deleteAddress } from '@/src/api'; // Create these API functions
+import { getMyAddresses } from '@/src/api';
 import { Colors } from '@/constants/colors';
-import useAuthStore from '../../src/store/authStore';
 
-type Address = {
-    id: string;
-    fullName: string;
-    phoneNumber: string;
-    addressLine: string;
-    city: string;
-    state: string;
-    isDefault?: boolean;
-};
+interface Address {
+    shipping_name:    string;
+    shipping_phone:   string;
+    shipping_address: string;
+    shipping_city:    string;
+    shipping_state:   string;
+    shipping_country: string;
+    last_used:        string;
+}
 
 export default function AddressesScreen(): JSX.Element {
     const router = useRouter();
-    const qc = useQueryClient();
 
     const { data: addresses = [], isLoading } = useQuery({
-        queryKey: ['addresses'],
-        queryFn: getAddresses,
-        select: (res) => res.data.data.addresses as Address[],
+        queryKey: ['my-addresses'],
+        queryFn:  getMyAddresses,
+        select:   (res) => res.data.data.addresses as Address[],
     });
-
-    const deleteMutation = useMutation({
-        mutationFn: (id: string) => deleteAddress(id),
-        onSuccess: () => {
-            Alert.alert('Success', 'Address deleted successfully');
-            qc.invalidateQueries({ queryKey: ['addresses'] });
-        },
-        onError: (e: any) => {
-            Alert.alert('Error', e.response?.data?.message || 'Failed to delete address');
-        },
-    });
-
-    const handleDelete = (id: string) => {
-        Alert.alert(
-            'Delete Address',
-            'Are you sure you want to delete this address?',
-            [
-                { text: 'Cancel' },
-                { text: 'Delete', style: 'destructive', onPress: () => deleteMutation.mutate(id) },
-            ]
-        );
-    };
-
-    const renderAddress = ({ item }: { item: Address }) => (
-        <View style={styles.addressCard}>
-            {item.isDefault && (
-                <View style={styles.defaultBadge}>
-                    <Text style={styles.defaultText}>Default</Text>
-                </View>
-            )}
-
-            <View style={styles.addressContent}>
-                <Text style={styles.name}>{item.fullName}</Text>
-                <Text style={styles.phone}>{item.phoneNumber}</Text>
-                <Text style={styles.addressLine}>{item.addressLine}</Text>
-                <Text style={styles.cityState}>{item.city}, {item.state}</Text>
-            </View>
-
-            <View style={styles.actions}>
-                <TouchableOpacity style={styles.actionBtn} onPress={() => Alert.alert('Coming Soon', 'Edit address will be available soon')}>
-                    <Edit size={18} color={Colors.primary} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.actionBtn} onPress={() => handleDelete(item.id)}>
-                    <Trash2 size={18} color={Colors.error} />
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
 
     return (
-        <SafeAreaView style={styles.container} edges={['top']}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                    <ArrowLeft size={24} color={Colors.primary} />
+                <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+                    <ChevronLeft size={22} color={Colors.primary} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>My Addresses</Text>
-                <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={() => router.push('/profile/add-address' as never)}
-                >
-                    <Plus size={22} color={Colors.primary} />
-                </TouchableOpacity>
+                <Text style={styles.headerTitle}>Saved Addresses</Text>
+                <View style={{ width: 38 }} />
             </View>
 
-            <ScrollView style={styles.scroll}>
-                {isLoading ? (
-                    <Text style={styles.loadingText}>Loading addresses...</Text>
-                ) : addresses.length === 0 ? (
-                    <View style={styles.emptyState}>
-                        <MapPin size={60} color="#ddd" />
-                        <Text style={styles.emptyTitle}>No addresses yet</Text>
-                        <Text style={styles.emptyText}>Add your delivery addresses for faster checkout</Text>
-                        <TouchableOpacity
-                            style={styles.addAddressBtn}
-                            onPress={() => router.push('/profile/add-address' as never)}
-                        >
-                            <Text style={styles.addAddressBtnText}>Add New Address</Text>
-                        </TouchableOpacity>
+            {isLoading ? (
+                <ActivityIndicator color={Colors.primary} style={{ marginTop: 40 }} size="large" />
+            ) : addresses.length === 0 ? (
+                <View style={styles.empty}>
+                    <View style={styles.emptyIcon}>
+                        <MapPin size={36} color={Colors.primary} opacity={0.4} />
                     </View>
-                ) : (
-                    <FlatList
-                        data={addresses}
-                        keyExtractor={(item) => item.id}
-                        renderItem={renderAddress}
-                        contentContainerStyle={styles.list}
-                    />
-                )}
-            </ScrollView>
+                    <Text style={styles.emptyTitle}>No saved addresses</Text>
+                    <Text style={styles.emptyText}>
+                        Addresses from your past orders will appear here.
+                    </Text>
+                    <TouchableOpacity
+                        style={styles.shopBtn}
+                        onPress={() => router.push('/(tabs)/products' as never)}
+                    >
+                        <Text style={styles.shopBtnText}>Start Shopping</Text>
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                <FlatList<Address>
+                    data={addresses}
+                    keyExtractor={(a, i) => `${a.shipping_address}-${a.shipping_city}-${i}`}
+                    contentContainerStyle={styles.list}
+                    showsVerticalScrollIndicator={false}
+                    ListHeaderComponent={
+                        <Text style={styles.listHint}>
+                            These addresses were saved from your past orders.
+                        </Text>
+                    }
+                    renderItem={({ item }) => (
+                        <View style={styles.addressCard}>
+                            {/* Header row */}
+                            <View style={styles.addressCardHeader}>
+                                <View style={styles.addressIcon}>
+                                    <MapPin size={16} color={Colors.primary} />
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={styles.addressName}>{item.shipping_name}</Text>
+                                    <Text style={styles.addressPhone}>{item.shipping_phone}</Text>
+                                </View>
+                                <View style={styles.lastUsedBadge}>
+                                    <Package size={10} color={Colors.textLight} />
+                                    <Text style={styles.lastUsedText}>
+                                        {new Date(item.last_used).toLocaleDateString('en-NG', {
+                                            month: 'short', year: 'numeric',
+                                        })}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            {/* Address lines */}
+                            <View style={styles.addressBody}>
+                                <Text style={styles.addressLine}>{item.shipping_address}</Text>
+                                <Text style={styles.addressLine}>
+                                    {item.shipping_city}, {item.shipping_state}
+                                </Text>
+                                <Text style={styles.addressLine}>{item.shipping_country}</Text>
+                            </View>
+                        </View>
+                    )}
+                />
+            )}
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: Colors.background },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingVertical: 14,
-        backgroundColor: Colors.secondary
-    },
-    backButton: { padding: 4 },
-    headerTitle: { fontSize: 18, fontWeight: '800', color: Colors.primary },
-    addButton: { padding: 4 },
-
-    scroll: { flex: 1 },
-    list: { padding: 16, gap: 12 },
-
-    addressCard: {
-        backgroundColor: Colors.white,
-        borderRadius: 16,
-        padding: 16,
-        borderWidth: 1,
-        borderColor: Colors.border,
-        flexDirection: 'row',
-    },
-    defaultBadge: {
-        position: 'absolute',
-        top: 12,
-        right: 12,
-        backgroundColor: '#dcfce7',
-        paddingHorizontal: 10,
-        paddingVertical: 3,
-        borderRadius: 12,
-    },
-    defaultText: { fontSize: 11, fontWeight: '700', color: '#166534' },
-    addressContent: { flex: 1 },
-    name: { fontSize: 15, fontWeight: '700', color: Colors.text },
-    phone: { fontSize: 13, color: Colors.textLight, marginVertical: 4 },
-    addressLine: { fontSize: 14, color: Colors.text, lineHeight: 20 },
-    cityState: { fontSize: 13, color: Colors.textLight },
-
-    actions: { justifyContent: 'space-between', paddingLeft: 12 },
-    actionBtn: { padding: 8, marginVertical: 4 },
-
-    emptyState: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40 },
-    emptyTitle: { fontSize: 18, fontWeight: '700', color: Colors.text, marginTop: 16 },
-    emptyText: { fontSize: 14, color: Colors.textLight, textAlign: 'center', marginTop: 8, marginBottom: 24 },
-    addAddressBtn: {
-        backgroundColor: Colors.secondary,
-        paddingHorizontal: 24,
-        paddingVertical: 14,
-        borderRadius: 12,
-    },
-    addAddressBtnText: { color: Colors.primary, fontWeight: '700' },
-
-    loadingText: { textAlign: 'center', marginTop: 40, color: Colors.textLight },
+    container:         { flex: 1, backgroundColor: Colors.background },
+    header:            { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+        paddingHorizontal: 16, paddingVertical: 14, backgroundColor: Colors.secondary },
+    backBtn:           { padding: 4 },
+    headerTitle:       { fontSize: 17, fontWeight: '800', color: Colors.primary },
+    empty:             { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40 },
+    emptyIcon:         { width: 72, height: 72, borderRadius: 36, backgroundColor: '#f5f0fa',
+        alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
+    emptyTitle:        { fontSize: 17, fontWeight: '700', color: Colors.text, marginBottom: 6 },
+    emptyText:         { fontSize: 13, color: Colors.textLight, textAlign: 'center',
+        marginBottom: 24, lineHeight: 20 },
+    shopBtn:           { backgroundColor: Colors.secondary, paddingHorizontal: 28,
+        paddingVertical: 14, borderRadius: 14 },
+    shopBtnText:       { color: Colors.primary, fontWeight: '800', fontSize: 15 },
+    list:              { padding: 16, gap: 12 },
+    listHint:          { fontSize: 12, color: Colors.textLight, marginBottom: 8,
+        textAlign: 'center' },
+    addressCard:       { backgroundColor: Colors.white, borderRadius: 16, padding: 14,
+        borderWidth: 1, borderColor: Colors.border },
+    addressCardHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 10 },
+    addressIcon:       { width: 34, height: 34, borderRadius: 10, backgroundColor: '#f5f0fa',
+        alignItems: 'center', justifyContent: 'center' },
+    addressName:       { fontSize: 14, fontWeight: '700', color: Colors.text },
+    addressPhone:      { fontSize: 12, color: Colors.textLight, marginTop: 1 },
+    lastUsedBadge:     { flexDirection: 'row', alignItems: 'center', gap: 4,
+        backgroundColor: Colors.background, paddingHorizontal: 8,
+        paddingVertical: 4, borderRadius: 8 },
+    lastUsedText:      { fontSize: 10, color: Colors.textLight },
+    addressBody:       { paddingLeft: 44 },
+    addressLine:       { fontSize: 13, color: Colors.text, lineHeight: 20 },
 });

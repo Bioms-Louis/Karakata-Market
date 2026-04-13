@@ -48,6 +48,9 @@ export default function RootLayout(): JSX.Element {
                     <Stack.Screen name="checkout" />
                     <Stack.Screen name="order/[id]" />
                     <Stack.Screen name="wishlist" />
+                    <Stack.Screen name="profile/settings" />
+                    <Stack.Screen name="profile/password" />
+                    <Stack.Screen name="profile/addresses" />
                 </Stack>
             </QueryClientProvider>
         </SafeAreaProvider>

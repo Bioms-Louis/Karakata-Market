@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
     User, Package, Heart, LogOut, ChevronRight,
-    HelpCircle, FileText, Shield, Settings, Phone, MapPin,
+    HelpCircle, FileText, Shield, Settings, Phone, MapPin, KeySquare,
 } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
 import useAuthStore from '../../src/store/authStore';
@@ -105,13 +105,13 @@ export default function ProfileScreen(): JSX.Element {
                         onPress={goToProfileSettings}
                     />
                     <MenuItem
-                        icon={Phone}
-                        label="Add Phone Number"
-                        onPress={() => router.push('/profile/phone' as never)}
+                        icon={KeySquare}
+                        label="Change Password"
+                        onPress={() => router.push('/profile/password' as never)}
                     />
                     <MenuItem
                         icon={MapPin}
-                        label="Addresses"
+                        label="Saved Addresses"
                         onPress={() => router.push('/profile/addresses' as never)}
                     />
                 </View>

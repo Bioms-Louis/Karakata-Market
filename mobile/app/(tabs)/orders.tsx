@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
     statusText:   { fontSize: 11, fontWeight: '700' },
     orderBottom:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     orderDate:    { fontSize: 12, color: Colors.textLight },
-    orderAmount:  { fontSize: 15, fontWeight: '800', color: Colors.primary },
+    orderAmount:  { fontSize: 15, fontWeight: '800', color: Colors.secondary },
     orderItems:   { fontSize: 11, color: Colors.textLight, marginTop: 4 },
 });

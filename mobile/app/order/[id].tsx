@@ -73,7 +73,7 @@ export default function OrderDetailScreen(): JSX.Element {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()} style={{padding: 4}}>
-                    <ChevronLeft size={22} color={Colors.primary}/>
+                    <ChevronLeft size={25} color={Colors.primary}/>
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>{order.order_number}</Text>
                 <View style={{width: 38}}/>
@@ -168,9 +168,9 @@ export default function OrderDetailScreen(): JSX.Element {
 const styles = StyleSheet.create({
     container:    { flex: 1, backgroundColor: Colors.background },
     header:       { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-        paddingHorizontal: 16, paddingVertical: 12, backgroundColor: Colors.white,
+        paddingHorizontal: 16, paddingVertical: 12, backgroundColor: Colors.secondary,
         borderBottomWidth: 1, borderBottomColor: Colors.border },
-    headerTitle:  { fontSize: 15, fontWeight: '800', color: Colors.text },
+    headerTitle:  { fontSize: 15, fontWeight: '800', color: Colors.primary },
     scroll:       { padding: 16, gap: 12 },
     statusCard:   { borderRadius: 16, padding: 14 },
     statusText:   { fontSize: 16, fontWeight: '800' },
@@ -187,12 +187,12 @@ const styles = StyleSheet.create({
     itemName:     { fontSize: 13, fontWeight: '600', color: Colors.text, marginBottom: 2 },
     itemVariant:  { fontSize: 11, color: Colors.textLight, marginBottom: 2 },
     itemQty:      { fontSize: 11, color: Colors.textLight },
-    itemTotal:    { fontSize: 13, fontWeight: '800', color: Colors.primary },
+    itemTotal:    { fontSize: 13, fontWeight: '800', color: Colors.secondary },
     infoRow:      { flexDirection: 'row', justifyContent: 'space-between',
         alignItems: 'flex-start', marginBottom: 8 },
     infoLabel:    { fontSize: 12, color: Colors.textLight, flex: 1 },
     infoValue:    { fontSize: 13, color: Colors.text, fontWeight: '500', flex: 2, textAlign: 'right' },
     totalLabel:   { fontSize: 14, fontWeight: '800', color: Colors.text, flex: 1 },
-    totalValue:   { fontSize: 15, fontWeight: '900', color: Colors.primary },
+    totalValue:   { fontSize: 15, fontWeight: '900', color: Colors.secondary },
     payBadge:     { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
 });

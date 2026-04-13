@@ -1,323 +1,251 @@
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
-    ScrollView, Alert, ActivityIndicator,
+    ScrollView, ActivityIndicator, KeyboardAvoidingView, Platform, Alert,
 } from 'react-native';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, Save } from 'lucide-react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { JSX, useState } from 'react';
-
-import { updateProfile, changePassword } from '@/src/api'; // You'll need to create these API functions
+import { ChevronLeft, User, Mail, Phone, Save } from 'lucide-react-native';
+import { JSX, useEffect } from 'react';
+import { getMyProfile, updateMyProfile } from '@/src/api';
+import useAuthStore from '@/src/store/authStore';
 import { Colors } from '@/constants/colors';
-import useAuthStore from '../../src/store/authStore';
+import type { User as UserType } from '@/src/types';
 
 interface ProfileForm {
     firstName: string;
-    lastName: string;
+    lastName:  string;
+    email:     string;
+    phone:     string;
 }
 
-interface PasswordForm {
-    currentPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-}
+const Field = ({
+                   label, icon: Icon, error, children,
+               }: {
+    label: string;
+    icon: React.ComponentType<{ size: number; color: string }>;
+    error?: string;
+    children: JSX.Element;
+}): JSX.Element => (
+    <View style={styles.field}>
+        <Text style={styles.label}>{label}</Text>
+        <View style={[styles.inputRow, !!error && styles.inputRowError]}>
+            <Icon size={16} color={error ? Colors.error : Colors.textLight} />
+            {children}
+        </View>
+        {!!error && <Text style={styles.errorText}>{error}</Text>}
+    </View>
+);
 
-export default function ProfileSettingsScreen(): JSX.Element {
-    const router = useRouter();
-    const { user, updateUser } = useAuthStore();
-    const qc = useQueryClient();
+export default function EditProfileScreen(): JSX.Element {
+    const router      = useRouter();
+    const qc          = useQueryClient();
+    const { updateUser } = useAuthStore();
 
-    const [isPasswordMode, setIsPasswordMode] = useState(false);
+    const { control, handleSubmit, reset, formState: { errors, isDirty } } =
+        useForm<ProfileForm>();
 
-    // Profile Form
-    const { control: profileControl, handleSubmit: handleProfileSubmit, formState: { errors: profileErrors } } = useForm<ProfileForm>({
-        defaultValues: {
-            firstName: user?.firstName || '',
-            lastName: user?.lastName || '',
-        },
+    const { data: profile, isLoading } = useQuery({
+        queryKey: ['my-profile'],
+        queryFn:  getMyProfile,
+        select:   (res) => res.data.data.user as UserType,
     });
 
-    // Password Form
-    const { control: passwordControl, handleSubmit: handlePasswordSubmit, formState: { errors: passwordErrors }, reset: resetPassword } = useForm<PasswordForm>();
-
-    // Update Profile Mutation
-    const updateProfileMutation = useMutation({
-        mutationFn: (data: ProfileForm) => updateProfile(data),
-        onSuccess: (res) => {
-            const updatedUser = res.data.data.user;
-            updateUser(updatedUser);
-            Alert.alert('Success', 'Profile updated successfully!');
-            qc.invalidateQueries({ queryKey: ['user'] });
-        },
-        onError: (e: any) => {
-            Alert.alert('Error', e.response?.data?.message || 'Failed to update profile');
-        },
-    });
-
-    // Change Password Mutation
-    const changePasswordMutation = useMutation({
-        mutationFn: (data: { currentPassword: string; newPassword: string }) => changePassword(data),
-        onSuccess: () => {
-            Alert.alert('Success', 'Password changed successfully!');
-            resetPassword();
-            setIsPasswordMode(false);
-        },
-        onError: (e: any) => {
-            Alert.alert('Error', e.response?.data?.message || 'Failed to change password');
-        },
-    });
-
-    const onUpdateProfile = (data: ProfileForm) => {
-        updateProfileMutation.mutate(data);
-    };
-
-    const onChangePassword = (data: PasswordForm) => {
-        if (data.newPassword !== data.confirmPassword) {
-            Alert.alert('Error', 'New passwords do not match');
-            return;
+    // Pre-fill form when data loads
+    useEffect(() => {
+        if (profile) {
+            reset({
+                firstName: profile.first_name ?? '',
+                lastName:  profile.last_name  ?? '',
+                email:     profile.email      ?? '',
+                phone:     profile.phone      ?? '',
+            });
         }
-        changePasswordMutation.mutate({
-            currentPassword: data.currentPassword,
-            newPassword: data.newPassword,
-        });
-    };
+    }, [profile, reset]);
+
+    const updateMutation = useMutation({
+        mutationFn: updateMyProfile,
+        onSuccess: (res) => {
+            const updated = res.data.data.user as UserType;
+            // Update both the query cache and the auth store
+            qc.setQueryData(['my-profile'], (old: any) => ({
+                ...old,
+                data: { ...old?.data, data: { user: updated } },
+            }));
+            updateUser(updated);
+            Alert.alert('Success', 'Profile updated successfully!', [
+                { text: 'OK', onPress: () => router.back() },
+            ]);
+        },
+        onError: (e: any) => {
+            Alert.alert('Error', e.response?.data?.message ?? 'Failed to update profile.');
+        },
+    });
 
     return (
-        <SafeAreaView style={styles.container} edges={['top']}>
+        <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                    <ArrowLeft size={24} color={Colors.primary} />
+                <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+                    <ChevronLeft size={22} color={Colors.primary} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Profile Settings</Text>
-                <View style={{ width: 24 }} />
+                <Text style={styles.headerTitle}>Edit Profile</Text>
+                <View style={{ width: 38 }} />
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-                {/* Email (Non-editable) */}
-                <View style={styles.infoCard}>
-                    <Text style={styles.label}>Email Address</Text>
-                    <Text style={styles.emailText}>{user?.email}</Text>
-                    <Text style={styles.note}>Email cannot be changed</Text>
-                </View>
+            {isLoading ? (
+                <ActivityIndicator color={Colors.primary} style={{ marginTop: 40 }} size="large" />
+            ) : (
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                    style={{ flex: 1 }}
+                >
+                    <ScrollView contentContainerStyle={styles.scroll}
+                                keyboardShouldPersistTaps="handled">
 
-                {/* Profile Information */}
-                {!isPasswordMode && (
-                    <View style={styles.formCard}>
-                        <Text style={styles.sectionTitle}>Personal Information</Text>
-
-                        <View style={styles.field}>
-                            <Text style={styles.label}>First Name</Text>
-                            <Controller
-                                control={profileControl}
-                                name="firstName"
-                                rules={{ required: 'First name is required' }}
-                                render={({ field: { onChange, value } }) => (
-                                    <TextInput
-                                        style={[styles.input, profileErrors.firstName && styles.inputError]}
-                                        value={value}
-                                        onChangeText={onChange}
-                                        placeholder="Enter first name"
-                                    />
-                                )}
-                            />
-                            {profileErrors.firstName && <Text style={styles.errorText}>{profileErrors.firstName.message}</Text>}
+                        {/* Avatar initial */}
+                        <View style={styles.avatarContainer}>
+                            <View style={styles.avatar}>
+                                <Text style={styles.avatarText}>
+                                    {profile?.first_name?.[0]?.toUpperCase() ?? 'U'}
+                                </Text>
+                            </View>
+                            <Text style={styles.avatarHint}>
+                                {profile?.first_name} {profile?.last_name}
+                            </Text>
                         </View>
 
-                        <View style={styles.field}>
-                            <Text style={styles.label}>Last Name</Text>
-                            <Controller
-                                control={profileControl}
-                                name="lastName"
-                                rules={{ required: 'Last name is required' }}
-                                render={({ field: { onChange, value } }) => (
-                                    <TextInput
-                                        style={[styles.input, profileErrors.lastName && styles.inputError]}
-                                        value={value}
-                                        onChangeText={onChange}
-                                        placeholder="Enter last name"
-                                    />
-                                )}
-                            />
-                            {profileErrors.lastName && <Text style={styles.errorText}>{profileErrors.lastName.message}</Text>}
-                        </View>
-
-                        <TouchableOpacity
-                            style={styles.saveButton}
-                            onPress={handleProfileSubmit(onUpdateProfile)}
-                            disabled={updateProfileMutation.isPending}
-                        >
-                            {updateProfileMutation.isPending ? (
-                                <ActivityIndicator color="#fff" />
-                            ) : (
-                                <>
-                                    <Save size={18} color="#ffc70e" />
-                                    <Text style={styles.saveButtonText}>Save Changes</Text>
-                                </>
-                            )}
-                        </TouchableOpacity>
-                    </View>
-                )}
-
-                {/* Password Change Section */}
-                <View style={styles.formCard}>
-                    <TouchableOpacity
-                        style={styles.passwordHeader}
-                        onPress={() => setIsPasswordMode(!isPasswordMode)}
-                    >
-                        <Text style={styles.sectionTitle}>Change Password</Text>
-                        <Text style={styles.toggleText}>
-                            {isPasswordMode ? 'Cancel' : 'Update'}
-                        </Text>
-                    </TouchableOpacity>
-
-                    {isPasswordMode && (
-                        <View style={{ marginTop: 12 }}>
-                            <View style={styles.field}>
-                                <Text style={styles.label}>Current Password</Text>
-                                <Controller
-                                    control={passwordControl}
-                                    name="currentPassword"
-                                    rules={{ required: 'Current password is required' }}
-                                    render={({ field: { onChange, value } }) => (
-                                        <TextInput
-                                            style={styles.input}
-                                            value={value}
-                                            onChangeText={onChange}
-                                            secureTextEntry
-                                            placeholder="Enter current password"
+                        <View style={styles.card}>
+                            <View style={styles.cardRow}>
+                                <View style={{ flex: 1 }}>
+                                    <Field label="First Name" icon={User}
+                                           error={errors.firstName?.message}>
+                                        <Controller
+                                            control={control} name="firstName"
+                                            rules={{ required: 'First name is required' }}
+                                            render={({ field: { onChange, value } }) => (
+                                                <TextInput
+                                                    style={styles.input}
+                                                    placeholder="John"
+                                                    placeholderTextColor={Colors.textLight}
+                                                    value={value}
+                                                    onChangeText={onChange}
+                                                />
+                                            )}
                                         />
-                                    )}
-                                />
+                                    </Field>
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <Field label="Last Name" icon={User}
+                                           error={errors.lastName?.message}>
+                                        <Controller
+                                            control={control} name="lastName"
+                                            rules={{ required: 'Last name is required' }}
+                                            render={({ field: { onChange, value } }) => (
+                                                <TextInput
+                                                    style={styles.input}
+                                                    placeholder="Doe"
+                                                    placeholderTextColor={Colors.textLight}
+                                                    value={value}
+                                                    onChangeText={onChange}
+                                                />
+                                            )}
+                                        />
+                                    </Field>
+                                </View>
                             </View>
 
-                            <View style={styles.field}>
-                                <Text style={styles.label}>New Password</Text>
+                            <Field label="Email Address" icon={Mail}
+                                   error={errors.email?.message}>
                                 <Controller
-                                    control={passwordControl}
-                                    name="newPassword"
+                                    control={control} name="email"
                                     rules={{
-                                        required: 'New password is required',
-                                        minLength: { value: 8, message: 'Password must be at least 8 characters' }
+                                        required: 'Email is required',
+                                        pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' },
                                     }}
                                     render={({ field: { onChange, value } }) => (
                                         <TextInput
                                             style={styles.input}
+                                            placeholder="you@example.com"
+                                            placeholderTextColor={Colors.textLight}
+                                            keyboardType="email-address"
+                                            autoCapitalize="none"
                                             value={value}
                                             onChangeText={onChange}
-                                            secureTextEntry
-                                            placeholder="Enter new password"
                                         />
                                     )}
                                 />
-                                {passwordErrors.newPassword && <Text style={styles.errorText}>{passwordErrors.newPassword.message}</Text>}
-                            </View>
+                            </Field>
 
-                            <View style={styles.field}>
-                                <Text style={styles.label}>Confirm New Password</Text>
+                            <Field label="Phone Number" icon={Phone}>
                                 <Controller
-                                    control={passwordControl}
-                                    name="confirmPassword"
-                                    rules={{ required: 'Please confirm new password' }}
+                                    control={control} name="phone"
                                     render={({ field: { onChange, value } }) => (
                                         <TextInput
                                             style={styles.input}
+                                            placeholder="08012345678"
+                                            placeholderTextColor={Colors.textLight}
+                                            keyboardType="phone-pad"
                                             value={value}
                                             onChangeText={onChange}
-                                            secureTextEntry
-                                            placeholder="Confirm new password"
                                         />
                                     )}
                                 />
-                            </View>
-
-                            <TouchableOpacity
-                                style={[styles.saveButton, { backgroundColor: '#3c1a5b' }]}
-                                onPress={handlePasswordSubmit(onChangePassword)}
-                                disabled={changePasswordMutation.isPending}
-                            >
-                                {changePasswordMutation.isPending ? (
-                                    <ActivityIndicator color="#fff" />
-                                ) : (
-                                    <Text style={styles.saveButtonText}>Change Password</Text>
-                                )}
-                            </TouchableOpacity>
+                            </Field>
                         </View>
-                    )}
-                </View>
-            </ScrollView>
+
+                        <TouchableOpacity
+                            style={[styles.saveBtn, (!isDirty || updateMutation.isPending)
+                            && styles.saveBtnDisabled]}
+                            onPress={handleSubmit((data) => updateMutation.mutate(data))}
+                            disabled={!isDirty || updateMutation.isPending}
+                        >
+                            {updateMutation.isPending ? (
+                                <ActivityIndicator color={Colors.primary} />
+                            ) : (
+                                <>
+                                    <Save size={18} color={Colors.primary} />
+                                    <Text style={styles.saveBtnText}>Save Changes</Text>
+                                </>
+                            )}
+                        </TouchableOpacity>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            )}
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: Colors.background },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingVertical: 14,
-        backgroundColor: Colors.secondary
-    },
-    backButton: { padding: 4 },
-    headerTitle: { fontSize: 18, fontWeight: '800', color: Colors.primary },
-
-    scrollContent: { padding: 16 },
-
-    infoCard: {
-        backgroundColor: Colors.white,
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 16,
-        borderWidth: 1,
-        borderColor: Colors.border,
-    },
-    label: { fontSize: 13, fontWeight: '700', color: Colors.textLight, marginBottom: 4 },
-    emailText: { fontSize: 15, color: Colors.text, fontWeight: '600' },
-    note: { fontSize: 12, color: '#999', marginTop: 6, fontStyle: 'italic' },
-
-    formCard: {
-        backgroundColor: Colors.white,
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 16,
-        borderWidth: 1,
-        borderColor: Colors.border,
-    },
-    sectionTitle: { fontSize: 16, fontWeight: '800', color: Colors.text, marginBottom: 12 },
-    field: { marginBottom: 16 },
-    input: {
-        borderWidth: 1.5,
-        borderColor: Colors.border,
-        borderRadius: 12,
-        paddingHorizontal: 14,
-        paddingVertical: 13,
-        fontSize: 15,
-        backgroundColor: Colors.background,
-    },
-    inputError: { borderColor: Colors.error },
-
-    passwordHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    toggleText: { color: Colors.primary, fontWeight: '600' },
-
-    saveButton: {
-        backgroundColor: Colors.secondary,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        paddingVertical: 14,
-        borderRadius: 12,
-        marginTop: 8,
-    },
-    saveButtonText: { color: Colors.primary, fontWeight: '700', fontSize: 15 },
-
-    errorText: { color: Colors.error, fontSize: 12, marginTop: 4 },
+    container:       { flex: 1, backgroundColor: Colors.background },
+    header:          { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+        paddingHorizontal: 16, paddingVertical: 14,
+        backgroundColor: Colors.secondary },
+    backBtn:         { padding: 4 },
+    headerTitle:     { fontSize: 17, fontWeight: '800', color: Colors.primary },
+    scroll:          { padding: 16, gap: 16, paddingBottom: 40 },
+    avatarContainer: { alignItems: 'center', marginVertical: 8 },
+    avatar:          { width: 72, height: 72, borderRadius: 36,
+        backgroundColor: Colors.primary, alignItems: 'center',
+        justifyContent: 'center', marginBottom: 8 },
+    avatarText:      { fontSize: 28, fontWeight: '900', color: Colors.secondary },
+    avatarHint:      { fontSize: 14, color: Colors.textLight },
+    card:            { backgroundColor: Colors.white, borderRadius: 16, padding: 16,
+        borderWidth: 1, borderColor: Colors.border, gap: 4 },
+    cardRow:         { flexDirection: 'row', gap: 12 },
+    field:           { marginBottom: 14 },
+    label:           { fontSize: 12, fontWeight: '700', color: Colors.text, marginBottom: 6 },
+    inputRow:        { flexDirection: 'row', alignItems: 'center', gap: 10,
+        borderWidth: 1.5, borderColor: Colors.border, borderRadius: 12,
+        paddingHorizontal: 12, paddingVertical: 11,
+        backgroundColor: '#fafafa' },
+    inputRowError:   { borderColor: Colors.error, backgroundColor: '#fff5f5' },
+    input:           { flex: 1, fontSize: 14, color: Colors.text },
+    errorText:       { fontSize: 11, color: Colors.error, marginTop: 4 },
+    saveBtn:         { flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+        gap: 8, backgroundColor: Colors.secondary, borderRadius: 14,
+        paddingVertical: 16 },
+    saveBtnDisabled: { opacity: 0.5 },
+    saveBtnText:     { fontSize: 15, fontWeight: '800', color: Colors.primary },
 });

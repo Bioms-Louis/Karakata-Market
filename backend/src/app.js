@@ -51,6 +51,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); 
 }
 
+app.use('/api/v1/users', require('./src/modules/users/users.routes'));
+
 app.use('/api/v1/wishlist', require('../src/modules/wishlist/wishlist.routes'));
 
 app.get('/api/health/db', async (req, res) => {

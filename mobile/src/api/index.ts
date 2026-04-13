@@ -1,5 +1,4 @@
 import api from './axios';
-import axios from "axios";
 
 // ── Auth ──────────────────────────────────────
 export const login    = (data: { email: string; password: string }) =>
@@ -82,27 +81,22 @@ export const createReview = (data: {
     rating: number;
     title?: string;
     body?: string;
-})    => api.post('/reviews', data);
+})                                                => api.post('/reviews', data);
 
-// ── Fetch products by vendor ID ───────────────────────────────────
+// Convenience — fetch products by vendor ID
 export const getVendorProducts = (vendorId: string) =>
     getProducts({ vendor: vendorId, limit: 10 });
 
-// ── Update User Profile ───────────────────────────────────
-export const updateProfile = (data: { firstName: string; lastName: string }) =>
-    axios.put('/api/v1/user/profile', data);
-
-export const changePassword = (data: { currentPassword: string; newPassword: string }) =>
-    axios.put('/api/v1/user/change-password', data);
-
-export const updatePhone = (data: { phoneNumber: string }) =>
-    axios.put('/api/v1/user/phone', data);
-
-export const getAddresses = () => axios.get('/api/v1/user/addresses');
-export const deleteAddress = (id: string) => axios.delete(`/api/v1/user/addresses/${id}`);
-
-export class Product {
-}
-
-export class Category {
-}
+// ── User Profile ──────────────────────────────
+export const getMyProfile    = ()                         => api.get('/users/me');
+export const updateMyProfile = (data: {
+    firstName: string;
+    lastName:  string;
+    email:     string;
+    phone?:    string;
+})                                                        => api.patch('/users/me', data);
+export const changeMyPassword = (data: {
+    currentPassword: string;
+    newPassword:     string;
+})                                                        => api.patch('/users/me/password', data);
+export const getMyAddresses  = ()                         => api.get('/users/me/addresses');

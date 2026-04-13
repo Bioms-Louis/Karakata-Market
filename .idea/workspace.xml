@@ -6,8 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/HomePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/users/users.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/users/users.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/order/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/order/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/profile/addresses.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/profile/addresses.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/profile/phone.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/profile/password.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/profile/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/profile/settings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +124,7 @@
       <workItem from="1775632881279" duration="2325000" />
       <workItem from="1775637908282" duration="7443000" />
       <workItem from="1776066144271" duration="724000" />
-      <workItem from="1776067074545" duration="16168000" />
+      <workItem from="1776067074545" duration="19767000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
