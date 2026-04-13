@@ -36,6 +36,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
 
     const [quantity, setQty] = useState(1);
     const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
+    const [selectedAttrValues, setSelectedAttrValues] = useState<Record<string, string>>({});
     const [reviewText, setReviewText] = useState('');
     const [reviewRating, setReviewRating] = useState(5);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -86,7 +87,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
     const cartMutation = useMutation({
         mutationFn: () => addToCart({
             productId: product!.id,
-            variantId: Object.values(selectedVariants).map(v => v.id), // Adjust if your backend expects a single ID
+            variantId: selectedVariants['_resolved']?.id ?? null,
             quantity,
         }),
         onSuccess: () => {
@@ -137,14 +138,68 @@ export default function ProductDetailScreen(): JSX.Element | null {
         ? Math.round((1 - parseFloat(product.discount_price!) / parseFloat(product.base_price)) * 100)
         : 0;
 
-    // Group variants (Size, Color, etc.)
-    const variantGroups = product.variants?.reduce((acc: Record<string, ProductVariant[]>, v) => {
-        const type = v.variant_type || 'Other';
-        if (!acc[type]) acc[type] = [];
-        acc[type].push(v);
-        return acc;
-    }, {}) || {};
+    // ── Variant grouping ─────────────────────────────────────────────────────
+    // Variants are stored as { variant_name: "Red/L", attributes: { color: "Red", size: "L" } }
+    // We extract unique attribute keys (e.g. "color", "size") and group the
+    // distinct values per key, keeping a reference to each matching variant.
 
+    // attrGroups: { color: ["Red","Blue"], size: ["S","M","L"] }
+    const attrGroups: Record<string, string[]> = {};
+    // variantByAttrs: lookup from attr-key + value → variants that contain it
+    const variantsByAttr: Record<string, Record<string, ProductVariant[]>> = {};
+
+    product.variants?.forEach((v) => {
+        const attrs = (v as any).attributes as Record<string, string> | undefined;
+        if (!attrs || Object.keys(attrs).length === 0) {
+            // No attributes — fall back to showing variant_name directly
+            if (!attrGroups['Option']) attrGroups['Option'] = [];
+            if (!variantsByAttr['Option']) variantsByAttr['Option'] = {};
+            if (!attrGroups['Option'].includes(v.variant_name)) {
+                attrGroups['Option'].push(v.variant_name);
+            }
+            if (!variantsByAttr['Option'][v.variant_name]) variantsByAttr['Option'][v.variant_name] = [];
+            variantsByAttr['Option'][v.variant_name].push(v);
+        } else {
+            Object.entries(attrs).forEach(([key, val]) => {
+                const label = key.charAt(0).toUpperCase() + key.slice(1); // "color" → "Color"
+                if (!attrGroups[label]) attrGroups[label] = [];
+                if (!variantsByAttr[label]) variantsByAttr[label] = {};
+                if (!attrGroups[label].includes(val)) attrGroups[label].push(val);
+                if (!variantsByAttr[label][val]) variantsByAttr[label][val] = [];
+                variantsByAttr[label][val].push(v);
+            });
+        }
+    });
+
+    const handleAttrSelect = (attrLabel: string, value: string) => {
+        // 1. Update the chosen value for this attribute label
+        const newAttrValues = { ...selectedAttrValues, [attrLabel]: value };
+        setSelectedAttrValues(newAttrValues);
+
+        // 2. Try to find a variant whose attributes satisfy ALL currently chosen values
+        const allLabels = Object.keys(attrGroups);
+        const allChosen = allLabels.every(label => newAttrValues[label] !== undefined);
+
+        if (allChosen) {
+            const matched = product.variants?.find(v => {
+                const attrs = (v as any).attributes as Record<string, string> | undefined;
+                if (!attrs) return false;
+                return allLabels.every(label => {
+                    const key = label.toLowerCase();
+                    return attrs[key] === newAttrValues[label];
+                });
+            });
+            if (matched) {
+                // Store matched variant under a single key for addToCart
+                setSelectedVariants({ _resolved: matched });
+            }
+        } else {
+            // Not all attrs chosen yet — clear resolved variant
+            setSelectedVariants({});
+        }
+    };
+
+    // Legacy handler kept for addToCart compat
     const handleVariantSelect = (type: string, variant: ProductVariant) => {
         setSelectedVariants(prev => ({ ...prev, [type]: variant }));
     };
@@ -262,36 +317,88 @@ export default function ProductDetailScreen(): JSX.Element | null {
                         <Text style={styles.originalPrice}>₦{parseFloat(product.base_price).toLocaleString()}</Text>
                     )}
 
-                    {/* Variants */}
-                    {Object.keys(variantGroups).length > 0 && (
+                    {/* Variants — each attribute key on its own row */}
+                    {Object.keys(attrGroups).length > 0 && (
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>Select Options</Text>
-                            {Object.entries(variantGroups).map(([type, variants]) => (
-                                <View key={type} style={styles.variantGroup}>
-                                    <Text style={styles.variantType}>{type}</Text>
-                                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                                        <View style={styles.variantChips}>
-                                            {variants.map(v => (
-                                                <TouchableOpacity
-                                                    key={v.id}
-                                                    style={[
-                                                        styles.variantChip,
-                                                        selectedVariants[type]?.id === v.id && styles.variantChipActive
-                                                    ]}
-                                                    onPress={() => handleVariantSelect(type, v)}
-                                                >
-                                                    <Text style={[
-                                                        styles.variantText,
-                                                        selectedVariants[type]?.id === v.id && styles.variantTextActive
-                                                    ]}>
-                                                        {v.variant_name}
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            ))}
+                            {Object.entries(attrGroups).map(([label, values]) => {
+                                const selected = selectedAttrValues[label];
+                                return (
+                                    <View key={label} style={styles.variantGroup}>
+                                        {/* Row header: "Color  ·  Red" */}
+                                        <View style={styles.variantHeaderRow}>
+                                            <Text style={styles.variantType}>{label}</Text>
+                                            {selected && (
+                                                <Text style={styles.variantSelectedLabel}>
+                                                    · {selected}
+                                                </Text>
+                                            )}
                                         </View>
-                                    </ScrollView>
-                                </View>
-                            ))}
+
+                                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                                            <View style={styles.variantChips}>
+                                                {values.map((val) => {
+                                                    const isActive = selected === val;
+
+                                                    // For color swatches — detect if val looks like a color
+                                                    const looksLikeColor =
+                                                        label.toLowerCase() === 'color' ||
+                                                        label.toLowerCase() === 'colour';
+
+                                                    // Try to use val as a CSS-style color name
+                                                    const knownColors: Record<string, string> = {
+                                                        red:'#ef4444', blue:'#3b82f6', green:'#22c55e',
+                                                        yellow:'#eab308', black:'#111827', white:'#f9fafb',
+                                                        purple:'#a855f7', pink:'#ec4899', orange:'#f97316',
+                                                        gray:'#6b7280', grey:'#6b7280', brown:'#92400e',
+                                                        navy:'#1e3a5f', beige:'#d4b896', gold:'#fbbf24',
+                                                        silver:'#9ca3af', cream:'#fef9c3',
+                                                    };
+                                                    const swatchColor = looksLikeColor
+                                                        ? knownColors[val.toLowerCase()] ?? null
+                                                        : null;
+
+                                                    return (
+                                                        <TouchableOpacity
+                                                            key={val}
+                                                            style={[
+                                                                styles.variantChip,
+                                                                isActive && styles.variantChipActive,
+                                                                swatchColor ? styles.variantChipSwatch : null,
+                                                            ]}
+                                                            onPress={() => handleAttrSelect(label, val)}
+                                                            activeOpacity={0.75}
+                                                        >
+                                                            {swatchColor ? (
+                                                                <View style={styles.variantSwatchRow}>
+                                                                    <View style={[
+                                                                        styles.colorDot,
+                                                                        { backgroundColor: swatchColor },
+                                                                        isActive && styles.colorDotActive,
+                                                                    ]} />
+                                                                    <Text style={[
+                                                                        styles.variantText,
+                                                                        isActive && styles.variantTextActive,
+                                                                    ]}>
+                                                                        {val}
+                                                                    </Text>
+                                                                </View>
+                                                            ) : (
+                                                                <Text style={[
+                                                                    styles.variantText,
+                                                                    isActive && styles.variantTextActive,
+                                                                ]}>
+                                                                    {val}
+                                                                </Text>
+                                                            )}
+                                                        </TouchableOpacity>
+                                                    );
+                                                })}
+                                            </View>
+                                        </ScrollView>
+                                    </View>
+                                );
+                            })}
                         </View>
                     )}
 
@@ -479,9 +586,17 @@ const styles = StyleSheet.create({
     section: { marginBottom: 24 },
     sectionTitle: { fontSize: 15, fontWeight: '700', marginBottom: 10 },
 
-    variantGroup: { marginBottom: 18 },
-    variantType: { fontSize: 14, fontWeight: '600', marginBottom: 8 },
-    variantChips: { flexDirection: 'row', gap: 10 },
+    variantGroup:        { marginBottom: 20 },
+    variantHeaderRow:    { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 10 },
+    variantType:         { fontSize: 13, fontWeight: '700', color: Colors.text,
+        textTransform: 'uppercase', letterSpacing: 0.6 },
+    variantSelectedLabel:{ fontSize: 13, color: Colors.primary, fontWeight: '600' },
+    variantChips:        { flexDirection: 'row', gap: 8, paddingBottom: 4 },
+    variantChipSwatch:   { paddingHorizontal: 10 },
+    variantSwatchRow:    { flexDirection: 'row', alignItems: 'center', gap: 6 },
+    colorDot:            { width: 14, height: 14, borderRadius: 7,
+        borderWidth: 1, borderColor: 'rgba(0,0,0,0.15)' },
+    colorDotActive:      { borderWidth: 2, borderColor: Colors.primary },
     variantChip: {
         paddingHorizontal: 18,
         paddingVertical: 10,
