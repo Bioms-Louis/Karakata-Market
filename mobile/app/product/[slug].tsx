@@ -290,7 +290,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
                 <View style={styles.content}>
                     {product.vendor_name && (
                         <View style={styles.vendorRow}>
-                            <Store size={16} color={Colors.primary} />
+                            <Store size={16} color={Colors.secondary} />
                             <Text style={styles.vendor}>{product.vendor_name}</Text>
                         </View>
                     )}
@@ -490,6 +490,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
                     {vendorProducts.length > 0 && (
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>More from {product.vendor_name}</Text>
+                            <Text style={styles.sectionSub}>Other products by this seller</Text>
                             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                                 {vendorProducts.map((p) => (
                                     <TouchableOpacity
@@ -513,6 +514,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
                     {recentlyViewed.length > 1 && (
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>Recently Viewed</Text>
+                            <Text style={styles.sectionSub}>Products you've looked at</Text>
                             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                                 {recentlyViewed.filter(p => p.id !== product.id).map((p) => (
                                     <TouchableOpacity
@@ -525,6 +527,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
                                             style={styles.relatedImage}
                                         />
                                         <Text style={styles.relatedName} numberOfLines={2}>{p.name}</Text>
+                                        <Text style={styles.relatedPrice}>{formatCurrency(p.base_price)}</Text>
                                     </TouchableOpacity>
                                 ))}
                             </ScrollView>
@@ -576,7 +579,7 @@ const styles = StyleSheet.create({
 
     content: { padding: 16 },
     vendorRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 },
-    vendor: { color: Colors.primary, fontWeight: '600' },
+    vendor: { color: Colors.secondary, fontWeight: '600' },
     productName: { fontSize: 20, fontWeight: '800', lineHeight: 26, marginBottom: 8 },
     ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginBottom: 12 },
     reviewCount: { marginLeft: 6, color: '#666', fontSize: 14 },
@@ -584,7 +587,8 @@ const styles = StyleSheet.create({
     originalPrice: { fontSize: 15, color: '#999', textDecorationLine: 'line-through' },
 
     section: { marginBottom: 24 },
-    sectionTitle: { fontSize: 15, fontWeight: '700', marginBottom: 10 },
+    sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 10 },
+    sectionSub: { fontSize: 12, marginBottom: 10},
 
     variantGroup:        { marginBottom: 20 },
     variantHeaderRow:    { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 10 },

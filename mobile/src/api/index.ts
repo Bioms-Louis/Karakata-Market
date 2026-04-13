@@ -82,8 +82,13 @@ export const createReview = (data: {
     rating: number;
     title?: string;
     body?: string;
-})                                                => api.post('/reviews', data);
+})    => api.post('/reviews', data);
 
+// ── Fetch products by vendor ID ───────────────────────────────────
+export const getVendorProducts = (vendorId: string) =>
+    getProducts({ vendor: vendorId, limit: 10 });
+
+// ── Update User Profile ───────────────────────────────────
 export const updateProfile = (data: { firstName: string; lastName: string }) =>
     axios.put('/api/v1/user/profile', data);
 
@@ -101,7 +106,3 @@ export class Product {
 
 export class Category {
 }
-
-// Convenience — fetch products by vendor ID
-export const getVendorProducts = (vendorId: string) =>
-    getProducts({ vendor: vendorId, limit: 10 });
