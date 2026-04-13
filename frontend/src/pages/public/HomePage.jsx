@@ -513,10 +513,31 @@ const HomePage = () => {
     select: (res) => res.data.data.products
   });
 
-   // Fetch phones & tablets
-  const { data: phonesTabletsData, isLoading: phonesTabletsLoading } = useQuery({
-    queryKey: ['products', 'phones-tablets'],
-    queryFn: () => getProducts({ category: 'phones-tablets', limit: 10 }),
+   // Fetch phones
+  const { data: phonesData, isLoading: phonesLoading } = useQuery({
+    queryKey: ['products', 'smartphones'],
+    queryFn: () => getProducts({ category: 'smartphones', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch iPads & tablets
+  const { data: tabletsData, isLoading: tabletsLoading } = useQuery({
+    queryKey: ['products', 'ipad-tablets'],
+    queryFn: () => getProducts({ category: 'ipad-tablets', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Mobile Accessories
+  const { data: mobileData, isLoading: mobileLoading } = useQuery({
+    queryKey: ['products', 'mobile-accessories'],
+    queryFn: () => getProducts({ category: 'mobile-accessories', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Laptops
+  const { data: laptopData, isLoading: laptopLoading } = useQuery({
+    queryKey: ['products', 'laptop'],
+    queryFn: () => getProducts({ category: 'laptop', limit: 10 }),
     select: (res) => res.data.data.products
   });
 
@@ -531,6 +552,27 @@ const HomePage = () => {
   const { data: womensFashionData, isLoading: womensFashionLoading } = useQuery({
     queryKey: ['products', 'womens-fashion'],
     queryFn: () => getProducts({ category: 'womens-fashion', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Food
+  const { data: foodData, isLoading: foodLoading } = useQuery({
+    queryKey: ['products', 'food'],
+    queryFn: () => getProducts({ category: 'food', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch beverages
+  const { data: beveragesData, isLoading: beveragesLoading } = useQuery({
+    queryKey: ['products', 'beverages'],
+    queryFn: () => getProducts({ category: 'beverages', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch health & beauty
+  const { data: healthData, isLoading: healthLoading } = useQuery({
+    queryKey: ['products', 'health-beauty'],
+    queryFn: () => getProducts({ category: 'health-beauty', limit: 10 }),
     select: (res) => res.data.data.products
   });
 
@@ -573,10 +615,31 @@ const HomePage = () => {
       />
       <ProductSection
         title="Get Deals on Latest Gadgets"
-        subtitle="Shop for your Smartphones, iPad & Tablets and all Mobile Accessories"
-        products={phonesTabletsData}
-        isLoading={phonesTabletsLoading}
-        viewAllLink="/products?category=phones-tablets"
+        subtitle="Shop for your Smartphones"
+        products={phonesData}
+        isLoading={phonesLoading}
+        viewAllLink="/products?category=smartphones"
+      />
+      <ProductSection
+          title="Get Deals on iPads & Tablets"
+          subtitle="Shop for your iPads & Tablets"
+          products={tabletsData}
+          isLoading={tabletsLoading}
+          viewAllLink="/products?category=ipad-tablets"
+      />
+      <ProductSection
+        title="Shop Mobile Accessories"
+        subtitle="Get your mobile accessories from power bank, charger, screen guard...."
+        products={mobileData}
+        isLoading={mobileLoading}
+        viewAllLink="/products?category=mobile-accessories"
+      />
+      <ProductSection
+          title="Power Meets Price"
+          subtitle="Unbeatable laptop deals for work, gaming, and everything in between"
+          products={laptopData}
+          isLoading={laptopLoading}
+          viewAllLink="/products?category=laptop"
       />
       <ProductSection
         title="Men's Fashion"
@@ -591,6 +654,27 @@ const HomePage = () => {
         products={womensFashionData}
         isLoading={womensFashionLoading}
         viewAllLink="/products?category=womens-fashion"
+      />
+      <ProductSection
+          title="Glow Starts Here"
+          subtitle="Discover skincare, beauty, and wellness essentials made for you"
+          products={healthData}
+          isLoading={healthLoading}
+          viewAllLink="/products?category=health-beauty"
+      />
+      <ProductSection
+          title="Cook Better, Spend Less"
+          subtitle="Get the best deals on everyday cooking essentials without compromise"
+          products={foodData}
+          isLoading={foodLoading}
+          viewAllLink="/products?category=food"
+      />
+      <ProductSection
+          title="Sip Into Refreshment"
+          subtitle="Juices, sodas, energy drinks, and more refreshment for every mood"
+          products={beveragesData}
+          isLoading={beveragesLoading}
+          viewAllLink="/products?category=beverages"
       />
     </div>
   );

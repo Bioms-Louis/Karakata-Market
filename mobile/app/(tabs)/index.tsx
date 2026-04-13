@@ -190,7 +190,7 @@ export default function HomeScreen(): JSX.Element {
 
     const [refreshing, setRefreshing] = useState(false);
 
-    // Wishlist count placeholder (connect to real store later)
+    // Wishlist count placeholder
     const wishlistCount = 0;
 
     const { data: slides, refetch: r1 } = useQuery({
@@ -222,16 +222,65 @@ export default function HomeScreen(): JSX.Element {
         retry: 1,
     });
 
-    const { data: menFashion, refetch: r5 } = useQuery({
+    const { data: phones, refetch: r5 } = useQuery({
+        queryKey: ['products', 'smartphones'],
+        queryFn: () => getProducts({ category: 'smartphones', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: menFashion, refetch: r6 } = useQuery({
         queryKey: ['products', 'mens-fashion'],
         queryFn: () => getProducts({ category: 'mens-fashion', limit: 10 }),
         select: (res) => res.data.data.products as Product[],
         retry: 1,
     });
 
-    const { data: womenFashion, refetch: r6 } = useQuery({
+    const { data: womenFashion, refetch: r7 } = useQuery({
         queryKey: ['products', 'womens-fashion'],
         queryFn: () => getProducts({ category: 'womens-fashion', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: tablets, refetch: r8 } = useQuery({
+        queryKey: ['products', 'ipad-tablets'],
+        queryFn: () => getProducts({ category: 'ipad-tablets', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: mobile, refetch: r9 } = useQuery({
+        queryKey: ['products', 'mobile-accessories'],
+        queryFn: () => getProducts({ category: 'mobile-accessories', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: laptop, refetch: r10 } = useQuery({
+        queryKey: ['products', 'laptop'],
+        queryFn: () => getProducts({ category: 'laptop', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: food, refetch: r11 } = useQuery({
+        queryKey: ['products', 'food'],
+        queryFn: () => getProducts({ category: 'food', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: beverages, refetch: r12 } = useQuery({
+        queryKey: ['products', 'beverages'],
+        queryFn: () => getProducts({ category: 'beverages', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: healthBeauty, refetch: r13 } = useQuery({
+        queryKey: ['products', 'health-beauty'],
+        queryFn: () => getProducts({ category: 'health-beauty', limit: 10 }),
         select: (res) => res.data.data.products as Product[],
         retry: 1,
     });
@@ -245,9 +294,10 @@ export default function HomeScreen(): JSX.Element {
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
-        await Promise.all([r1(), r2(), r3(), r4(), r5(), r6()]);
+        await Promise.all([r1(), r2(), r3(), r4(), r5(), r6(), r7(), r8(),
+            r9(), r10(), r11(), r12()]);
         setRefreshing(false);
-    }, [r1, r2, r3, r4, r5, r6]);
+    }, [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12]);
 
     const renderProduct = ({ item }: { item: Product }) => (
         <ProductCard product={item} onPress={() => router.push(`/product/${item.slug}` as never)} />
@@ -394,6 +444,82 @@ export default function HomeScreen(): JSX.Element {
                     </View>
                 )}
 
+                {/* SmartPhones */}
+                {(phones?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Get Deals on Latest Gadgets"
+                            subtitle="Shop for your Smartphones"
+                            onViewAll={() => goToProductsWithFilter('?category=smartphones')}
+                        />
+                        <FlatList<Product>
+                            data={phones}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* iPad & Tablets */}
+                {(tablets?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Get Deals on iPads & Tablets"
+                            subtitle="Shop for your iPads & Tablets"
+                            onViewAll={() => goToProductsWithFilter('?category=ipad-tablets')}
+                        />
+                        <FlatList<Product>
+                            data={tablets}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Mobile Accessories */}
+                {(mobile?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Shop Mobile Accessories"
+                            subtitle="Shop for all mobile accessories"
+                            onViewAll={() => goToProductsWithFilter('?category=mobile-accessories')}
+                        />
+                        <FlatList<Product>
+                            data={mobile}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Laptops */}
+                {(laptop?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Power Meets Price"
+                            subtitle="Unbeatable laptop deals just for you"
+                            onViewAll={() => goToProductsWithFilter('?category=laptop')}
+                        />
+                        <FlatList<Product>
+                            data={laptop}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
                 {/* Men's Fashion */}
                 {(menFashion?.length ?? 0) > 0 && (
                     <View style={[styles.section, { marginBottom: 24 }]}>
@@ -415,7 +541,7 @@ export default function HomeScreen(): JSX.Element {
 
                 {/* Women's Fashion */}
                 {(womenFashion?.length ?? 0) > 0 && (
-                    <View style={[styles.section, { marginBottom: 100 }]}>
+                    <View style={[styles.section, { marginBottom: 24 }]}>
                         <SectionHeader
                             title="Women's Fashion"
                             subtitle="Dresses, shoes, handbags, jewelry & everything in between"
@@ -431,6 +557,64 @@ export default function HomeScreen(): JSX.Element {
                         />
                     </View>
                 )}
+
+                {/* Health & Beauty */}
+                {(healthBeauty?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Glow Starts Here"
+                            subtitle="Discover skincare, beauty, and wellness essentials"
+                            onViewAll={() => goToProductsWithFilter('?category=health-beauty')}
+                        />
+                        <FlatList<Product>
+                            data={healthBeauty}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Food */}
+                {(food?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Cook Better, Spend Less"
+                            subtitle="Get the best deals on everyday cooking essentials"
+                            onViewAll={() => goToProductsWithFilter('?category=food')}
+                        />
+                        <FlatList<Product>
+                            data={food}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Beverages */}
+                {(beverages?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 100 }]}>
+                        <SectionHeader
+                            title="Sip Into Refreshment"
+                            subtitle="Refreshment for every mood"
+                            onViewAll={() => goToProductsWithFilter('?category=beverages')}
+                        />
+                        <FlatList<Product>
+                            data={beverages}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
             </ScrollView>
         </SafeAreaView>
     );
