@@ -73,7 +73,7 @@ export default function TabsLayout() {
                             iconName = focused ? 'home' : 'home-outline';
                             break;
                         case 'products':
-                            iconName = focused ? 'grid' : 'grid-outline';
+                            iconName = focused ? 'bag' : 'bag-outline';
                             break;
                         case 'cart':
                             iconName = focused ? 'cart' : 'cart-outline';
@@ -93,7 +93,7 @@ export default function TabsLayout() {
             })}
         >
             <Tabs.Screen name="index" options={{ title: 'Home' }} />
-            <Tabs.Screen name="products" options={{ title: 'Products' }} />
+            <Tabs.Screen name="products" options={{ title: 'Shop' }} />
             <Tabs.Screen name="cart" options={{ title: 'Cart' }} />
             <Tabs.Screen name="orders" options={{ title: 'Orders' }} />
             <Tabs.Screen name="profile" options={{ title: 'Profile' }} />
