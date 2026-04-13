@@ -15,7 +15,7 @@ import {
     addToWishlist,
     removeFromWishlist,
     checkWishlisted,
-    getVendorProducts,
+    getProducts,
     submitReview
 } from '@/src/api';
 
@@ -63,7 +63,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
     // Other products from vendor
     const { data: vendorProducts = [] } = useQuery({
         queryKey: ['vendor-products', product?.vendor_id],
-        queryFn: () => getVendorProducts(product!.vendor_id),
+        queryFn: () => getProducts({ vendor: product!.vendor_id, limit: 10 }),
         select: (res) => (res.data.data.products as Product[]).filter(p => p.id !== product?.id),
         enabled: !!product?.vendor_id,
     });

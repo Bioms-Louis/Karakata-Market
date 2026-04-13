@@ -101,3 +101,7 @@ export class Product {
 
 export class Category {
 }
+
+// Convenience — fetch products by vendor ID
+export const getVendorProducts = (vendorId: string) =>
+    getProducts({ vendor: vendorId, limit: 10 });

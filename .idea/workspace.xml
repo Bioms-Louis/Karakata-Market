@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/src/api/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/axios.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +114,7 @@
       <workItem from="1775632881279" duration="2325000" />
       <workItem from="1775637908282" duration="7443000" />
       <workItem from="1776066144271" duration="724000" />
-      <workItem from="1776067074545" duration="7980000" />
+      <workItem from="1776067074545" duration="9147000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
