@@ -27,7 +27,7 @@ export default function CartScreen(): JSX.Element {
         enabled:  isAuthenticated,
     });
 
-    const { data: shippingFee = 1500 } = useQuery({
+    const { data: shippingFee = 100 } = useQuery({
         queryKey: ['shipping-fee'],
         queryFn:  getShippingFee,
         select:   (res) => res.data.data.shippingFee as number,
@@ -51,17 +51,6 @@ export default function CartScreen(): JSX.Element {
             setCartCount(0);
         },
     });
-    // Add this near the top with other hooks
-    const setCartCount = useCartStore((s) => s.setCount);
-
-// After fetching cartData
-    useEffect(() => {
-        if (cartData) {
-            const totalItems = cartData?.summary?.totalQuantity ??
-                cartData?.items?.length ?? 0;
-            setCartCount(totalItems);
-        }
-    }, [cartData, setCartCount]);
 
     if (!isAuthenticated) {
         return (

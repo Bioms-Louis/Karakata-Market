@@ -285,6 +285,70 @@ export default function HomeScreen(): JSX.Element {
         retry: 1,
     });
 
+    const { data: appliances, refetch: r14 } = useQuery({
+        queryKey: ['products', 'appliances'],
+        queryFn: () => getProducts({ category: 'appliances', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: television, refetch: r15 } = useQuery({
+        queryKey: ['products', 'television'],
+        queryFn: () => getProducts({ category: 'television', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: accessories, refetch: r16 } = useQuery({
+        queryKey: ['products', 'electronic-accessories'],
+        queryFn: () => getProducts({ category: 'electronic-accessories', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: homeOffice, refetch: r17 } = useQuery({
+        queryKey: ['products', 'home-office'],
+        queryFn: () => getProducts({ category: 'home-office', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: sleepWellness, refetch: r18 } = useQuery({
+        queryKey: ['products', 'sleep-wellness'],
+        queryFn: () => getProducts({ category: 'sleep-wellness', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: gaming, refetch: r19 } = useQuery({
+        queryKey: ['products', 'gaming'],
+        queryFn: () => getProducts({ category: 'gaming', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: toy, refetch: r20 } = useQuery({
+        queryKey: ['products', 'toys-games'],
+        queryFn: () => getProducts({ category: 'toys-games', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: automobile, refetch: r21 } = useQuery({
+        queryKey: ['products', 'automobile'],
+        queryFn: () => getProducts({ category: 'automobile', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+    const { data: baby, refetch: r22 } = useQuery({
+        queryKey: ['products', 'baby-products'],
+        queryFn: () => getProducts({ category: 'baby-products', limit: 10 }),
+        select: (res) => res.data.data.products as Product[],
+        retry: 1,
+    });
+
+
     const { data: categories } = useQuery({
         queryKey: ['categories'],
         queryFn: getCategories,
@@ -295,9 +359,11 @@ export default function HomeScreen(): JSX.Element {
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
         await Promise.all([r1(), r2(), r3(), r4(), r5(), r6(), r7(), r8(),
-            r9(), r10(), r11(), r12()]);
+            r9(), r10(), r11(), r12(), r13(), r14(),
+        r15(), r16(), r17(), r18(), r19(), r20(), r21(), r22()]);
         setRefreshing(false);
-    }, [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12]);
+    }, [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14,
+    r15, r16, r17, r18, r19, r20, r21, r22]);
 
     const renderProduct = ({ item }: { item: Product }) => (
         <ProductCard product={item} onPress={() => router.push(`/product/${item.slug}` as never)} />
@@ -444,6 +510,25 @@ export default function HomeScreen(): JSX.Element {
                     </View>
                 )}
 
+                {/* Appliances */}
+                {(appliances?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Shop Appliances"
+                            subtitle="From small appliances to large appliances"
+                            onViewAll={() => goToProductsWithFilter('?category=appliances')}
+                        />
+                        <FlatList<Product>
+                            data={appliances}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
                 {/* SmartPhones */}
                 {(phones?.length ?? 0) > 0 && (
                     <View style={[styles.section, { marginBottom: 24 }]}>
@@ -511,6 +596,44 @@ export default function HomeScreen(): JSX.Element {
                         />
                         <FlatList<Product>
                             data={laptop}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Televison */}
+                {(television?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Television Deals"
+                            subtitle="Smart TVs, OLED, QLED, get great deals"
+                            onViewAll={() => goToProductsWithFilter('?category=television')}
+                        />
+                        <FlatList<Product>
+                            data={television}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Electronic Accessories */}
+                {(accessories?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Electronic Accessories"
+                            subtitle="Speakers, headphones, smart watches, and more"
+                            onViewAll={() => goToProductsWithFilter('?category=accessories')}
+                        />
+                        <FlatList<Product>
+                            data={accessories}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={(p) => p.id}
@@ -598,7 +721,7 @@ export default function HomeScreen(): JSX.Element {
 
                 {/* Beverages */}
                 {(beverages?.length ?? 0) > 0 && (
-                    <View style={[styles.section, { marginBottom: 100 }]}>
+                    <View style={[styles.section, { marginBottom: 24 }]}>
                         <SectionHeader
                             title="Sip Into Refreshment"
                             subtitle="Refreshment for every mood"
@@ -606,6 +729,120 @@ export default function HomeScreen(): JSX.Element {
                         />
                         <FlatList<Product>
                             data={beverages}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Home and Office */}
+                {(homeOffice?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Home and Office"
+                            subtitle="Get the best deals on home and office essentials"
+                            onViewAll={() => goToProductsWithFilter('?category=home-office')}
+                        />
+                        <FlatList<Product>
+                            data={homeOffice}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Baby Products */}
+                {(baby?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Baby Products"
+                            subtitle="Get all baby products and essentials"
+                            onViewAll={() => goToProductsWithFilter('?category=baby-products')}
+                        />
+                        <FlatList<Product>
+                            data={baby}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Sleep and Wellness */}
+                {(sleepWellness?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Sleep and Wellness"
+                            subtitle=""
+                            onViewAll={() => goToProductsWithFilter('?category=sleep-wellness')}
+                        />
+                        <FlatList<Product>
+                            data={sleepWellness}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Toys and Games */}
+                {(toy?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Toys and Games"
+                            subtitle="Toys and games for kids, toys and games for adults"
+                            onViewAll={() => goToProductsWithFilter('?category=toy-games')}
+                        />
+                        <FlatList<Product>
+                            data={toy}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Gaming */}
+                {(gaming?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 24 }]}>
+                        <SectionHeader
+                            title="Gaming Consoles"
+                            subtitle="Gaming consoles for all your gaming needs"
+                            onViewAll={() => goToProductsWithFilter('?category=gaming')}
+                        />
+                        <FlatList<Product>
+                            data={gaming}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(p) => p.id}
+                            contentContainerStyle={styles.hList}
+                            renderItem={renderProduct}
+                        />
+                    </View>
+                )}
+
+                {/* Automobiles */}
+                {(automobile?.length ?? 0) > 0 && (
+                    <View style={[styles.section, { marginBottom: 100 }]}>
+                        <SectionHeader
+                            title="Automobiles"
+                            subtitle="Brand New, Direct Belgium, Local Used"
+                            onViewAll={() => goToProductsWithFilter('?category=automobile')}
+                        />
+                        <FlatList<Product>
+                            data={automobile}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={(p) => p.id}
