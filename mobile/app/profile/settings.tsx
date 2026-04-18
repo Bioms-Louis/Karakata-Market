@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
-import { ChevronLeft, User, Mail, Phone, Save } from 'lucide-react-native';
+import { ChevronLeft, User, Mail, Phone, Save, Lock } from 'lucide-react-native';
 import { JSX, useEffect } from 'react';
 import { getMyProfile, updateMyProfile } from '@/src/api';
 import useAuthStore from '@/src/store/authStore';
@@ -15,32 +15,37 @@ import type { User as UserType } from '@/src/types';
 
 interface ProfileForm {
     firstName: string;
-    lastName:  string;
-    email:     string;
-    phone:     string;
+    lastName: string;
+    phone: string;
 }
 
 const Field = ({
-                   label, icon: Icon, error, children,
+                   label, icon: Icon, error, children, disabled = false,
                }: {
     label: string;
     icon: React.ComponentType<{ size: number; color: string }>;
     error?: string;
     children: JSX.Element;
+    disabled?: boolean;
 }): JSX.Element => (
     <View style={styles.field}>
         <Text style={styles.label}>{label}</Text>
-        <View style={[styles.inputRow, !!error && styles.inputRowError]}>
-            <Icon size={16} color={error ? Colors.error : Colors.textLight} />
+        <View style={[
+            styles.inputRow,
+            !!error && styles.inputRowError,
+            disabled && styles.inputRowDisabled
+        ]}>
+            <Icon size={16} color={disabled ? '#999' : (error ? Colors.error : Colors.textLight)} />
             {children}
+            {disabled && <Lock size={16} color="#999" style={{ marginLeft: 8 }} />}
         </View>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
     </View>
 );
 
 export default function EditProfileScreen(): JSX.Element {
-    const router      = useRouter();
-    const qc          = useQueryClient();
+    const router = useRouter();
+    const qc = useQueryClient();
     const { updateUser } = useAuthStore();
 
     const { control, handleSubmit, reset, formState: { errors, isDirty } } =
@@ -48,8 +53,8 @@ export default function EditProfileScreen(): JSX.Element {
 
     const { data: profile, isLoading } = useQuery({
         queryKey: ['my-profile'],
-        queryFn:  getMyProfile,
-        select:   (res) => res.data.data.user as UserType,
+        queryFn: getMyProfile,
+        select: (res) => res.data.data.user as UserType,
     });
 
     // Pre-fill form when data loads
@@ -57,18 +62,16 @@ export default function EditProfileScreen(): JSX.Element {
         if (profile) {
             reset({
                 firstName: profile.first_name ?? '',
-                lastName:  profile.last_name  ?? '',
-                email:     profile.email      ?? '',
-                phone:     profile.phone      ?? '',
+                lastName: profile.last_name ?? '',
+                phone: profile.phone ?? '',
             });
         }
     }, [profile, reset]);
 
     const updateMutation = useMutation({
-        mutationFn: updateMyProfile,
+        mutationFn: (data: ProfileForm) => updateMyProfile(data),
         onSuccess: (res) => {
             const updated = res.data.data.user as UserType;
-            // Update both the query cache and the auth store
             qc.setQueryData(['my-profile'], (old: any) => ({
                 ...old,
                 data: { ...old?.data, data: { user: updated } },
@@ -156,25 +159,13 @@ export default function EditProfileScreen(): JSX.Element {
                                 </View>
                             </View>
 
-                            <Field label="Email Address" icon={Mail}
-                                   error={errors.email?.message}>
-                                <Controller
-                                    control={control} name="email"
-                                    rules={{
-                                        required: 'Email is required',
-                                        pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' },
-                                    }}
-                                    render={({ field: { onChange, value } }) => (
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder="you@example.com"
-                                            placeholderTextColor={Colors.textLight}
-                                            keyboardType="email-address"
-                                            autoCapitalize="none"
-                                            value={value}
-                                            onChangeText={onChange}
-                                        />
-                                    )}
+                            {/* Email - Read Only */}
+                            <Field label="Email Address" icon={Mail} disabled>
+                                <TextInput
+                                    style={[styles.input, styles.disabledInput]}
+                                    value={profile?.email ?? ''}
+                                    editable={false}
+                                    selectTextOnFocus={false}
                                 />
                             </Field>
 
@@ -241,7 +232,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12, paddingVertical: 11,
         backgroundColor: '#fafafa' },
     inputRowError:   { borderColor: Colors.error, backgroundColor: '#fff5f5' },
+    inputRowDisabled: { backgroundColor: '#f5f5f5', borderColor: '#e5e5e5' },
     input:           { flex: 1, fontSize: 14, color: Colors.text },
+    disabledInput:   { color: '#999', backgroundColor: 'transparent' },
     errorText:       { fontSize: 11, color: Colors.error, marginTop: 4 },
     saveBtn:         { flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
         gap: 8, backgroundColor: Colors.secondary, borderRadius: 14,
