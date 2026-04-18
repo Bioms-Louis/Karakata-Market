@@ -39,7 +39,7 @@ export default function ProductDetailScreen(): JSX.Element | null {
     const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
     const [selectedAttrValues, setSelectedAttrValues] = useState<Record<string, string>>({});
     const [reviewText, setReviewText] = useState('');
-    const [reviewRating, setReviewRating] = useState(5);
+    const [reviewRating, setReviewRating] = useState(0);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
 
@@ -150,11 +150,6 @@ export default function ProductDetailScreen(): JSX.Element | null {
         : 0;
 
     // ── Variant grouping ─────────────────────────────────────────────────────
-    // Variants are stored as { variant_name: "Red/L", attributes: { color: "Red", size: "L" } }
-    // We extract unique attribute keys (e.g. "color", "size") and group the
-    // distinct values per key, keeping a reference to each matching variant.
-
-    // attrGroups: { color: ["Red","Blue"], size: ["S","M","L"] }
     const attrGroups: Record<string, string[]> = {};
     // variantByAttrs: lookup from attr-key + value → variants that contain it
     const variantsByAttr: Record<string, Record<string, ProductVariant[]>> = {};
