@@ -39,16 +39,29 @@ export const getCategories = () => api.get('/categories');
 export const getCarousel   = () => api.get('/carousel');
 
 // ── Cart ──────────────────────────────────────
-export const getCart        = ()                          => api.get('/cart');
-export const addToCart      = (data: {
-    productId: string;
-    variantId?: string | null;
+export const getCart = () => api.get<ApiResponse<Cart>>('/cart');
+
+export const addToCart = (data: {
+    productId: string | number;
+    variantId?: string | number | null;
     quantity: number;
-})                                                        => api.post('/cart', data);
-export const updateCartItem = (id: string, data: { quantity: number }) =>
-    api.patch(`/cart/${id}`, data);
-export const removeCartItem = (id: string)                => api.delete(`/cart/${id}`);
-export const clearCart      = ()                          => api.delete('/cart');
+}) =>
+    api.post<ApiResponse<CartItem>>('/cart/items', data);
+
+export const updateCartItem = (
+    itemId: string | number,
+    data: {
+        quantity?: number;
+        // Add other updatable fields if your backend supports them
+    }
+) =>
+    api.patch<ApiResponse<CartItem>>(`/cart/items/${itemId}`, data);
+
+export const removeCartItem = (itemId: string | number) =>
+    api.delete<ApiResponse<{ message: string }>>(`/cart/items/${itemId}`);
+
+export const clearCart = () =>
+    api.delete<ApiResponse<{ message: string }>>('/cart');
 
 // ── Orders ────────────────────────────────────
 export interface OrderPayload {
@@ -69,10 +82,10 @@ export const cancelOrder    = (id: string)                => api.patch(`/orders/
 export const getShippingFee = ()                          => api.get('/orders/shipping-fee');
 
 // ── Wishlist ──────────────────────────────────
-export const getWishlist        = ()              => api.get('/wishlist');
-export const addToWishlist      = (id: string)    => api.post('/wishlist', { product_id: id });
-export const removeFromWishlist = (id: string)    => api.delete(`/wishlist/${id}`);
-export const checkWishlisted    = (id: string)    => api.get(`/wishlist/check/${id}`);
+export const getWishlist  = () => api.get('/wishlist');
+export const checkWishlisted = (id: string) => api.get(`/wishlist/check/${id}`);
+export const addToWishlist = (id: string) => api.post('/wishlist', { product_id: id });
+export const removeFromWishlist = (id: string) => api.delete(`/wishlist/${id}`);
 
 // ── Reviews ───────────────────────────────────
 export const getReviews   = (productId: string)   => api.get(`/reviews/product/${productId}`);
