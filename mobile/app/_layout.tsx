@@ -45,7 +45,7 @@ export default function RootLayout(): JSX.Element {
                     <Stack.Screen name="auth/login" />
                     <Stack.Screen name="auth/register" />
                     <Stack.Screen name="product/[slug]" />
-                    <Stack.Screen name="checkout" />
+                    {/*<Stack.Screen name="checkout" />*/}
                     <Stack.Screen name="order/[id]" />
                     <Stack.Screen name="wishlist" />
                     <Stack.Screen name="profile/settings" />

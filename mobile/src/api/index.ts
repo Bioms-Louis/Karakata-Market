@@ -100,3 +100,6 @@ export const changeMyPassword = (data: {
     newPassword:     string;
 })                                                        => api.patch('/users/me/password', data);
 export const getMyAddresses  = ()                         => api.get('/users/me/addresses');
+
+// Alias so [slug].tsx can import submitReview
+export const submitReview = createReview;

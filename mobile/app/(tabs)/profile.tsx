@@ -1,12 +1,12 @@
 import {
     View, Text, TouchableOpacity, StyleSheet,
-    ScrollView, Alert, Image,
+    ScrollView, Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
     User, Package, Heart, LogOut, ChevronRight,
-    HelpCircle, FileText, Shield, Settings, Phone, MapPin, KeySquare,
+    HelpCircle, FileText, Shield, Settings, MapPin, KeySquare,
 } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
 import useAuthStore from '../../src/store/authStore';

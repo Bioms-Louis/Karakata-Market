@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
     getProduct,
+    getReviews,
     addToCart,
     addToWishlist,
     removeFromWishlist,
@@ -68,6 +69,14 @@ export default function ProductDetailScreen(): JSX.Element | null {
         enabled: !!product?.vendor_id,
     });
 
+    // Fetch reviews separately (not embedded in product response)
+    const { data: reviews = [], refetch: refetchReviews } = useQuery({
+        queryKey: ['reviews', product?.id],
+        queryFn:  () => getReviews(product!.id),
+        select:   (res) => res.data.data.reviews ?? [],
+        enabled:  !!product?.id,
+    });
+
     // Review mutation
     const reviewMutation = useMutation({
         mutationFn: () => submitReview({
@@ -78,6 +87,8 @@ export default function ProductDetailScreen(): JSX.Element | null {
         onSuccess: () => {
             Alert.alert('Thank you!', 'Your review has been submitted.');
             setReviewText('');
+            setReviewRating(5);
+            void qc.invalidateQueries({ queryKey: ['reviews', product?.id] });
             void qc.invalidateQueries({ queryKey: ['product', slug] });
         },
         onError: (e: any) => Alert.alert('Error', e.response?.data?.message ?? 'Failed to submit review'),
@@ -458,31 +469,60 @@ export default function ProductDetailScreen(): JSX.Element | null {
                             </View>
                         ) : (
                             <TouchableOpacity onPress={() => router.push('/auth/login' as never)}>
-                                <Text style={{ color: Colors.primary, marginTop: 8 }}>
-                                    Login to write a review
+                                <Text style={{ color: Colors.secondary, marginBottom: 10 }}>
+                                    Login to add a review
                                 </Text>
                             </TouchableOpacity>
                         )}
 
-                        {(product.reviews?.length ?? 0) > 0 && (
+                        {reviews.length > 0 ? (
                             <FlatList
-                                data={product.reviews}
+                                data={reviews}
                                 scrollEnabled={false}
-                                keyExtractor={item => item.id.toString()}
-                                renderItem={({ item }) => (
+                                keyExtractor={(item: any) => item.id?.toString()}
+                                renderItem={({ item }: { item: any }) => (
                                     <View style={styles.reviewItem}>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                            <Text style={{ fontWeight: '600' }}>{item.user_name}</Text>
-                                            <View style={{ flexDirection: 'row' }}>
-                                                {[1,2,3,4,5].map(s => (
-                                                    <Star key={s} size={14} fill={s <= item.rating ? '#ffc107' : 'none'} color="#ffc107" />
-                                                ))}
+                                        <View style={styles.reviewHeader}>
+                                            <View style={styles.reviewerAvatar}>
+                                                <Text style={styles.reviewerAvatarText}>
+                                                    {(item.first_name ?? item.user_name ?? 'C')?.[0]?.toUpperCase()}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                                <Text style={styles.reviewerName}>
+                                                    {item.first_name && item.last_name
+                                                        ? `${item.first_name} ${item.last_name}`
+                                                        : item.first_name ?? item.user_name ?? 'Customer'}
+                                                </Text>
+                                                <View style={styles.reviewStars}>
+                                                    {[1,2,3,4,5].map(s => (
+                                                        <Star key={s} size={12}
+                                                              fill={s <= item.rating ? '#ffc107' : 'none'}
+                                                              color="#ffc107" />
+                                                    ))}
+                                                    {item.created_at && (
+                                                        <Text style={styles.reviewDate}>
+                                                            {new Date(item.created_at).toLocaleDateString('en-NG', {
+                                                                day: 'numeric', month: 'short', year: 'numeric'
+                                                            })}
+                                                        </Text>
+                                                    )}
+                                                </View>
                                             </View>
                                         </View>
-                                        <Text style={{ marginTop: 8, color: '#555' }}>{item.comment}</Text>
+                                        {(item.body || item.comment) && (
+                                            <Text style={styles.reviewComment}>
+                                                {item.body ?? item.comment}
+                                            </Text>
+                                        )}
                                     </View>
                                 )}
+                                ItemSeparatorComponent={() => <View style={styles.reviewDivider} />}
                             />
+                        ) : (
+                            <Text style={styles.noReviews}>
+                                No reviews yet. Be the first to review this product!
+                            </Text>
                         )}
                     </View>
 
@@ -625,7 +665,21 @@ const styles = StyleSheet.create({
     submitBtn: { backgroundColor: Colors.secondary, paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
     submitBtnText: { color: Colors.primary, fontWeight: '700' },
 
-    reviewItem: { backgroundColor: '#f8f8f8', padding: 14, borderRadius: 12, marginBottom: 12 },
+    reviewItem:          { backgroundColor: Colors.white, padding: 14, borderRadius: 12,
+        borderWidth: 1, borderColor: Colors.border },
+    reviewHeader:        { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 8 },
+    reviewerAvatar:      { width: 34, height: 34, borderRadius: 17,
+        backgroundColor: Colors.primary, alignItems: 'center',
+        justifyContent: 'center', flexShrink: 0 },
+    reviewerAvatarText:  { fontSize: 13, fontWeight: '800', color: Colors.secondary },
+    reviewerName:        { fontSize: 13, fontWeight: '700', color: Colors.text },
+    reviewStars:         { flexDirection: 'row', alignItems: 'center', gap: 2, marginTop: 2 },
+    reviewDate:          { fontSize: 10, color: Colors.textLight, marginLeft: 6 },
+    reviewComment:       { fontSize: 13, color: Colors.text, lineHeight: 20,
+        paddingLeft: 44 },
+    reviewDivider:       { height: 10 },
+    noReviews:           { fontSize: 13, color: Colors.textLight, textAlign: 'center',
+        paddingVertical: 16 },
 
     relatedCard: { width: 140, marginRight: 12 },
     relatedImage: { width: 140, height: 140, borderRadius: 12 },
