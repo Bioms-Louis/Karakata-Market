@@ -576,6 +576,69 @@ const HomePage = () => {
     select: (res) => res.data.data.products
   });
 
+  // Fetch appliances
+  const { data: appliancesData, isLoading: appliancesLoading } = useQuery({
+    queryKey: ['products', 'appliances'],
+    queryFn: () => getProducts({ category: 'appliances', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch TVs
+  const { data: tvData, isLoading: tvLoading } = useQuery({
+    queryKey: ['products', 'television'],
+    queryFn: () => getProducts({ category: 'television', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Electronic Accessories
+  const { data: accessoriesData, isLoading: accessoriesLoading } = useQuery({
+    queryKey: ['products', 'electronic-accessories'],
+    queryFn: () => getProducts({ category: 'electronic-accessories', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Home Office
+  const { data: homeOfficeData, isLoading: homeOfficeisLoading } = useQuery({
+    queryKey: ['products', 'home-office'],
+    queryFn: () => getProducts({ category: 'home-office', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Baby Products
+  const { data: babyData, isLoading: babyisLoading } = useQuery({
+    queryKey: ['products', 'baby-products'],
+    queryFn: () => getProducts({ category: 'baby-products', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Sleep and Wellness
+  const { data: sleepData, isLoading: sleepisLoading } = useQuery({
+    queryKey: ['products', 'sleep-wellness'],
+    queryFn: () => getProducts({ category: 'sleep-wellness', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Console and Gaming
+  const { data: gamingData, isLoading: gamingisLoading } = useQuery({
+    queryKey: ['products', 'gaming'],
+    queryFn: () => getProducts({ category: 'gaming', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Toys and Games
+  const { data: toyGamesData, isLoading: toyGamesisLoading } = useQuery({
+    queryKey: ['products', 'toys-games'],
+    queryFn: () => getProducts({ category: 'toys-games', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
+  // Fetch Automobiles
+  const { data: autoData, isLoading: autoisLoading } = useQuery({
+    queryKey: ['products', 'automobile'],
+    queryFn: () => getProducts({ category: 'automobile', limit: 10 }),
+    select: (res) => res.data.data.products
+  });
+
   // Fetch categories
   const { data: categoriesData, isLoading: categoriesLoading } = useQuery({
     queryKey: ['categories'],
@@ -614,6 +677,13 @@ const HomePage = () => {
         viewAllLink="/products?category=electronics"
       />
       <ProductSection
+          title="Shop Appliances"
+          subtitle="From small appliances to large appliances"
+          products={appliancesData}
+          isLoading={appliancesLoading}
+          viewAllLink="/products?category=appliances"
+      />
+      <ProductSection
         title="Get Deals on Latest Gadgets"
         subtitle="Shop for your Smartphones"
         products={phonesData}
@@ -640,6 +710,20 @@ const HomePage = () => {
           products={laptopData}
           isLoading={laptopLoading}
           viewAllLink="/products?category=laptop"
+      />
+      <ProductSection
+          title="Television Deals"
+          subtitle="Smart TVs, OLED, QLED, get great deals"
+          products={tvData}
+          isLoading={tvLoading}
+          viewAllLink="/products?category=televison"
+      />
+      <ProductSection
+          title="Electronic Accessories"
+          subtitle="Speakers, headphones, smart watches, and more"
+          products={accessoriesData}
+          isLoading={accessoriesLoading}
+          viewAllLink="/products?category=electronic-accessories"
       />
       <ProductSection
         title="Men's Fashion"
@@ -675,6 +759,48 @@ const HomePage = () => {
           products={beveragesData}
           isLoading={beveragesLoading}
           viewAllLink="/products?category=beverages"
+      />
+      <ProductSection
+          title="Home and Office"
+          subtitle="Get the best deals on home and office essentials"
+          products={homeOfficeData}
+          isLoading={homeOfficeisLoading}
+          viewAllLink="/products?category=home-office"
+      />
+      <ProductSection
+          title="Baby Products"
+          subtitle="Get all baby products and essentials"
+          products={babyData}
+          isLoading={babyisLoading}
+          viewAllLink="/products?category=baby-products"
+      />
+      <ProductSection
+          title="Sleep and Wellness"
+          subtitle=""
+          products={sleepData}
+          isLoading={sleepisLoading}
+          viewAllLink="/products?category=sleep-wellness"
+      />
+      <ProductSection
+          title="Toys and Games"
+          subtitle="Toys and games for kids, toys and games for adults"
+          products={toyGamesData}
+          isLoading={toyGamesisLoading}
+          viewAllLink="/products?category=toy-games"
+      />
+      <ProductSection
+          title="Gaming Consoles"
+          subtitle="Gaming consoles for all your gaming needs"
+          products={gamingData}
+          isLoading={gamingisLoading}
+          viewAllLink="/products?category=gaming"
+      />
+      <ProductSection
+          title="Automobiles"
+          subtitle="Brand New, Direct Belgium, Local Used"
+          products={autoData}
+          isLoading={autoisLoading}
+          viewAllLink="/products?category=automobile"
       />
     </div>
   );

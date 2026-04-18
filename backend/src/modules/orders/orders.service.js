@@ -2,7 +2,7 @@ const { query, getClient } = require('../../config/database');
 const AppError = require('../../utils/AppError');
 const { clearCart } = require('../cart/cart.service');
 
-const SHIPPING_FEE = 1500;
+const SHIPPING_FEE = 100;
 
 const generateOrderNumber = () => {
   const year = new Date().getFullYear();

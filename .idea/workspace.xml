@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/orders/orders.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/orders/orders.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/payments/payments.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/payments/payments.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/HomePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/(tabs)/cart.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile/app/checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/checkout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/profile/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/profile/settings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +125,9 @@
       <workItem from="1776090749574" duration="2590000" />
       <workItem from="1776267421275" duration="648000" />
       <workItem from="1776417181009" duration="4159000" />
-      <workItem from="1776496104028" duration="10109000" />
+      <workItem from="1776496104028" duration="11506000" />
+      <workItem from="1776523309770" duration="850000" />
+      <workItem from="1776524368163" duration="2859000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />

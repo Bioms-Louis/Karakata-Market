@@ -1,9 +1,10 @@
 import { Tabs } from 'expo-router';
 import { Colors } from "@/constants/colors";
 import { Ionicons } from '@expo/vector-icons';
-import { Animated, Platform, View } from 'react-native';
+import { Animated, Platform, View, Text } from 'react-native';
 import { useRef, useEffect } from 'react';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import useCartStore from '@/src/store/cartStore';   // ← Import the store
 
 function AnimatedIcon({ name, color, size, focused }: any) {
     const scale = useRef(new Animated.Value(1)).current;
@@ -26,6 +27,9 @@ function AnimatedIcon({ name, color, size, focused }: any) {
 
 export default function TabsLayout() {
     const insets = useSafeAreaInsets();
+    const cartCount = useCartStore((state) => state.count);
+
+    const displayCount = cartCount > 99 ? '99+' : cartCount.toString();
 
     return (
         <Tabs
@@ -46,10 +50,9 @@ export default function TabsLayout() {
                     height: 58,
                     paddingBottom: Platform.OS === 'ios' ? 0 : 4,
 
-                    // Shadow
-                    shadowColor: '#fff',
-                    shadowOpacity: 0.12,
-                    shadowOffset: { width: 0, height: 6 },
+                    shadowColor: '#000',
+                    shadowOpacity: 0.15,
+                    shadowOffset: { width: 0, height: 4 },
                     shadowRadius: 12,
                 },
 
@@ -64,7 +67,20 @@ export default function TabsLayout() {
                     paddingBottom: 4,
                 },
 
-                // Animated Icons
+                // Cart Tab Badge
+                ...(route.name === 'cart' && cartCount > 0 && {
+                    tabBarBadge: displayCount,
+                    tabBarBadgeStyle: {
+                        backgroundColor: '#ef4444',   // Red badge
+                        color: '#fff',
+                        fontSize: 10,
+                        fontWeight: '700',
+                        minWidth: 18,
+                        height: 18,
+                        borderRadius: 9,
+                    },
+                }),
+
                 tabBarIcon: ({ color, size, focused }) => {
                     let iconName: keyof typeof Ionicons.glyphMap;
 

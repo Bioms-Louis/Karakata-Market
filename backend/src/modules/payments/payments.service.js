@@ -10,11 +10,7 @@ const paystackAPI = axios.create({
   }
 });
 
-// ─────────────────────────────────────────────
 // INITIALIZE PAYMENT
-// Creates a Paystack transaction and returns
-// the payment URL to redirect the user to
-// ─────────────────────────────────────────────
 const initializePayment = async (userId, orderId) => {
   // 1. Get the order — verify it belongs to this user
   const orderResult = await query(
