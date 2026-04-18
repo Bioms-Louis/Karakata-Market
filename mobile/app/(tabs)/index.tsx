@@ -630,7 +630,7 @@ export default function HomeScreen(): JSX.Element {
                         <SectionHeader
                             title="Electronic Accessories"
                             subtitle="Speakers, headphones, smart watches, and more"
-                            onViewAll={() => goToProductsWithFilter('?category=accessories')}
+                            onViewAll={() => goToProductsWithFilter('?category=electronic-accessories')}
                         />
                         <FlatList<Product>
                             data={accessories}
