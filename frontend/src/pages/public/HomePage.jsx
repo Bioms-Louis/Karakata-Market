@@ -783,7 +783,7 @@ const HomePage = () => {
       />
       <ProductSection
           title="Toys and Games"
-          subtitle="Toys and games for kids, toys and games for adults"
+          subtitle="Toys, games and more"
           products={toyGamesData}
           isLoading={toyGamesisLoading}
           viewAllLink="/products?category=toy-games"

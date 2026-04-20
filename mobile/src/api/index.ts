@@ -39,16 +39,21 @@ export const getCategories = () => api.get('/categories');
 export const getCarousel   = () => api.get('/carousel');
 
 // ── Cart ──────────────────────────────────────
-export const getCart        = ()                          => api.get('/cart');
-export const addToCart      = (data: {
-    productId: string;
-    variantId?: string | null;
+export const getCart = () => api.get('/cart');
+
+export const addToCart = (data: {
+    productId: string | number;
+    variantId?: string | number | null;
     quantity: number;
-})                                                        => api.post('/cart', data);
-export const updateCartItem = (id: string, data: { quantity: number }) =>
-    api.patch(`/cart/${id}`, data);
-export const removeCartItem = (id: string)                => api.delete(`/cart/${id}`);
-export const clearCart      = ()                          => api.delete('/cart');
+}) => api.post('/cart/items', data);
+
+export const updateCartItem = (itemId: string | number, data: { quantity: number }) =>
+    api.patch(`/cart/items/${itemId}`, data);
+
+export const removeCartItem = (itemId: string | number) =>
+    api.delete(`/cart/items/${itemId}`);
+
+export const clearCart = () => api.delete('/cart');
 
 // ── Orders ────────────────────────────────────
 export interface OrderPayload {

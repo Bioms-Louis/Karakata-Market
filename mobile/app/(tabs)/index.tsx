@@ -800,7 +800,7 @@ export default function HomeScreen(): JSX.Element {
                     <View style={[styles.section, { marginBottom: 24 }]}>
                         <SectionHeader
                             title="Toys and Games"
-                            subtitle="Toys and games and more"
+                            subtitle="Toys, games and more"
                             onViewAll={() => goToProductsWithFilter('?category=toys-games')}
                         />
                         <FlatList<Product>

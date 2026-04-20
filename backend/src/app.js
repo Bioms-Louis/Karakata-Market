@@ -18,16 +18,32 @@ const reviewRoutes = require('./modules/reviews/reviews.routes');
 const notificationRoutes = require('./modules/notifications/notifications.routes');
 const paymentRoutes = require('./modules/payments/payments.routes');
 const carouselRoutes = require('./modules/carousel/carousel.routes');
+const wishlistRoutes = require('./modules/wishlist/wishlist.routes');
 
 const app = express();
 
 app.use(helmet());
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+  'http://localhost:8081',
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true, 
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    // Allow any local network IP (for Expo Go on phone)
+    if (/^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/.test(origin)) return callback(null, true);
+    if (/^http:\/\/10\.\d+\.\d+\.\d+(:\d+)?$/.test(origin)) return callback(null, true);
+    if (/^http:\/\/172\.(1[6-9]|2\d|3[01])\.\d+\.\d+(:\d+)?$/.test(origin)) return callback(null, true);
+    return callback(null, true); // Allow all in development
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use((req, res, next) => {
@@ -48,12 +64,8 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev')); 
+  app.use(morgan('dev'));
 }
-
-// app.use('/api/v1/users', require('./src/modules/users/users.routes'));
-
-app.use('/api/v1/wishlist', require('../src/modules/wishlist/wishlist.routes'));
 
 app.get('/api/health/db', async (req, res) => {
   try {
@@ -64,7 +76,7 @@ app.get('/api/health/db', async (req, res) => {
       WHERE table_schema = 'public'
       ORDER BY table_name
     `);
-    
+
     res.json({
       success: true,
       message: 'Database connected successfully',
@@ -94,6 +106,7 @@ app.use(`${API_PREFIX}/notifications`, notificationRoutes);
 app.use(`${API_PREFIX}/payments`, paymentRoutes);
 app.use(`${API_PREFIX}/admin`, adminRoutes);
 app.use(`${API_PREFIX}/carousel`, carouselRoutes);
+app.use(`${API_PREFIX}/wishlist`, wishlistRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({

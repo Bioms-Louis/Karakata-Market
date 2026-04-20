@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Animated, Platform, View, Text } from 'react-native';
 import { useRef, useEffect } from 'react';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useCartStore from '@/src/store/cartStore';   // ← Import the store
+import useCartStore from '@/src/store/cartStore';
 
 function AnimatedIcon({ name, color, size, focused }: any) {
     const scale = useRef(new Animated.Value(1)).current;

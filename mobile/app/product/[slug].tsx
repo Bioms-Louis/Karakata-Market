@@ -106,7 +106,14 @@ export default function ProductDetailScreen(): JSX.Element | null {
             void qc.invalidateQueries({ queryKey: ['cart'] });
             Alert.alert('Added to Cart', `${product!.name} added successfully!`);
         },
-        onError: (e: any) => Alert.alert('Error', e.response?.data?.message ?? 'Failed to add to cart'),
+        onError: (e: any) => {
+            const status  = e.response?.status;
+            const message = e.response?.data?.message ?? e.message ?? 'Failed to add to cart';
+            Alert.alert(
+                `Cart Error ${status ? `(${status})` : ''}`,
+                message
+            );
+        },
     });
 
     const wishlistMutation = useMutation({
