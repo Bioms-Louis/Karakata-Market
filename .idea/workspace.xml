@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update." />
+    <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +123,7 @@
       <workItem from="1776523309770" duration="850000" />
       <workItem from="1776524368163" duration="7896000" />
       <workItem from="1776675028290" duration="5174000" />
-      <workItem from="1776681348012" duration="1738000" />
+      <workItem from="1776681348012" duration="4381000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
