@@ -1,6 +1,6 @@
 import {
     View, Text, FlatList, TouchableOpacity,
-    Image, StyleSheet, Alert, ActivityIndicator,
+    Image, StyleSheet, Alert, ActivityIndicator
 } from 'react-native';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
@@ -12,7 +12,7 @@ import { Colors } from '@/constants/colors';
 import useAuthStore from '../../src/store/authStore';
 import useCartStore from '../../src/store/cartStore';
 import type { CartItem, Cart } from '../../src/types';
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
 
 export default function CartScreen(): JSX.Element {
     const router = useRouter();
@@ -33,6 +33,18 @@ export default function CartScreen(): JSX.Element {
         select:   (res) => res.data.data.shippingFee as number,
     });
 
+    // ✅ Automatically sync badge count whenever cart data changes
+    useEffect(() => {
+        if (cartData) {
+            const totalItems = cartData?.summary?.totalQuantity
+                ?? cartData?.items?.length
+                ?? 0;
+            setCartCount(totalItems);
+        } else if (!isAuthenticated) {
+            setCartCount(0);
+        }
+    }, [cartData, isAuthenticated, setCartCount]);
+
     const updateMutation = useMutation({
         mutationFn: ({ id, quantity }: { id: string; quantity: number }) =>
             updateCartItem(id, { quantity }),
@@ -48,7 +60,7 @@ export default function CartScreen(): JSX.Element {
         mutationFn: clearCart,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] });
-            setCartCount(0);
+            setCartCount(0);                    // Immediate reset
         },
     });
 
