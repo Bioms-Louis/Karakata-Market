@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/product/[slug].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/payments/payments.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/payments/payments.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/payments/payments.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/payments/payments.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/users/users.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/users/users.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/customer/CheckoutPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/customer/CheckoutPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/checkout.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,7 +18,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="228" />
+    <option name="cachedIndexableFilesCount" value="229" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -123,7 +127,12 @@
       <workItem from="1776523309770" duration="850000" />
       <workItem from="1776524368163" duration="7896000" />
       <workItem from="1776675028290" duration="5174000" />
-      <workItem from="1776681348012" duration="4381000" />
+      <workItem from="1776681348012" duration="9684000" />
+      <workItem from="1777021306826" duration="2518000" />
+      <workItem from="1777535882528" duration="311000" />
+      <workItem from="1777536338328" duration="114000" />
+      <workItem from="1777536573184" duration="1350000" />
+      <workItem from="1777574721507" duration="1737000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />

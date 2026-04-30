@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import {
-  MapPin, CreditCard, ChevronRight,
+  MapPin, ChevronRight,
   Shield, Lock, Package, CheckCircle,
   Plus, Home, Briefcase, Star
 } from 'lucide-react';
@@ -475,10 +475,10 @@ const OrderReview = ({ shippingData, cartData, onBack, onPlaceOrder, isPlacing, 
         <Shield size={18} className="text-blue-500 shrink-0 mt-0.5" />
         <div>
           <p className="text-sm font-semibold text-blue-800">
-            Secure Payment via Paystack
+            Secure Payment
           </p>
           <p className="text-xs text-blue-600 mt-0.5">
-            You'll be redirected automatically to Paystack after placing
+            You'll be redirected automatically to payment gateway after placing
             your order. Cards, bank transfer and USSD accepted.
           </p>
         </div>
@@ -497,7 +497,7 @@ const OrderReview = ({ shippingData, cartData, onBack, onPlaceOrder, isPlacing, 
         <button
           onClick={onPlaceOrder}
           disabled={isPlacing}
-          className="flex-grow py-3.5 px-8 rounded-xl font-bold text-sm
+          className="grow py-3.5 px-8 rounded-xl font-bold text-sm
                      flex items-center justify-center gap-2 transition-all
                      hover:opacity-90 disabled:opacity-50
                      disabled:cursor-not-allowed"

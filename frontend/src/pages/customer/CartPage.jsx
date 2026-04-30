@@ -205,7 +205,7 @@ const OrderSummary = ({ summary, onCheckout, isCheckingOut, shippingFee = 0 }) =
       <div className="mt-4 flex items-center justify-center gap-2
                       text-xs text-gray-400">
         <Shield size={12} />
-        <span>Secured by Paystack</span>
+        <span>Secured Payment</span>
       </div>
 
       {/* Continue Shopping */}
