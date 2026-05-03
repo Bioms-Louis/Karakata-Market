@@ -634,8 +634,9 @@ const CheckoutPage = () => {
           window.location.href = authorizationUrl;
         }, 1500);
 
-      } catch {
-        toast.error('Order placed but payment failed. Check your orders.');
+      } catch (payErr) {
+        const msg = payErr.response?.data?.message || 'Payment initialisation failed. Check your orders.';
+        toast.error(msg);
         navigate('/orders');
       }
     },

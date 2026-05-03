@@ -5,9 +5,19 @@ const AppError = require('../../utils/AppError');
 const paystackAPI = axios.create({
     baseURL: 'https://api.paystack.co',
     headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
         'Content-Type': 'application/json'
     }
+});
+
+// Read the key at REQUEST time, not at module load time
+// This ensures dotenv has already loaded the key
+paystackAPI.interceptors.request.use((config) => {
+    const key = process.env.PAYSTACK_SECRET_KEY;
+    if (!key) {
+        throw new Error('PAYSTACK_SECRET_KEY is not set in environment variables.');
+    }
+    config.headers.Authorization = `Bearer ${key}`;
+    return config;
 });
 
 // INITIALIZE PAYMENT
@@ -47,20 +57,30 @@ const initializePayment = async (userId, orderId) => {
     const callbackUrl = process.env.PAYMENT_CALLBACK_URL || `${frontendUrl}/payment/verify`;
     const cancelUrl   = `${frontendUrl}/checkout`;
 
-    const paystackResponse = await paystackAPI.post('/transaction/initialize', {
-        email: user.email,
-        amount: amountInKobo,
-        reference: order.order_number,
-        callback_url: callbackUrl,
-        metadata: {
-            orderId: order.id,
-            orderNumber: order.order_number,
-            userId: userId,
-            customerName: `${user.first_name} ${user.last_name}`,
-            cancel_action: cancelUrl,
-        },
-        channels: ['card', 'bank', 'ussd', 'mobile_money']
-    });
+    let paystackResponse;
+    try {
+        paystackResponse = await paystackAPI.post('/transaction/initialize', {
+            email: user.email,
+            amount: amountInKobo,
+            reference: order.order_number,
+            callback_url: callbackUrl,
+            metadata: {
+                orderId: order.id,
+                orderNumber: order.order_number,
+                userId: userId,
+                customerName: `${user.first_name} ${user.last_name}`,
+                cancel_action: cancelUrl,
+            },
+        });
+    } catch (paystackErr) {
+        console.error('Paystack initialization error:', {
+            status: paystackErr.response?.status,
+            data:   paystackErr.response?.data,
+            msg:    paystackErr.message,
+        });
+        const msg = paystackErr.response?.data?.message || 'Payment gateway error. Please try again.';
+        throw new AppError(msg, 400);
+    }
 
     const { authorization_url, reference, access_code } =
         paystackResponse.data.data;
@@ -83,9 +103,13 @@ const initializePayment = async (userId, orderId) => {
 // VERIFY PAYMENT
 const verifyPayment = async (reference) => {
     // 1. Ask Paystack: "Did this payment succeed?"
-    const paystackResponse = await paystackAPI.get(
-        `/transaction/verify/${reference}`
-    );
+    let paystackResponse;
+    try {
+        paystackResponse = await paystackAPI.get(`/transaction/verify/${reference}`);
+    } catch (paystackErr) {
+        const msg = paystackErr.response?.data?.message || 'Could not reach payment gateway. Please try again.';
+        throw new AppError(msg, 400);
+    }
     const { status, amount, metadata } = paystackResponse.data.data;
 
     // 2. Check Paystack confirms it succeeded
@@ -143,7 +167,7 @@ const handleWebhook = async (event, signature, rawBody) => {
         // Find the order
         const orderResult = await query(
             `SELECT * FROM orders
-       WHERE paystack_reference = $1 OR order_number = $1`,
+             WHERE paystack_reference = $1 OR order_number = $1`,
             [reference]
         );
 
@@ -173,12 +197,12 @@ const markOrderAsPaid = async (orderId, reference) => {
         // 1. Update order payment status
         const orderResult = await client.query(
             `UPDATE orders
-       SET payment_status = 'paid',
-           status = 'confirmed',
-           paystack_reference = $1,
-           updated_at = NOW()
-       WHERE id = $2
-       RETURNING *`,
+             SET payment_status = 'paid',
+                 status = 'confirmed',
+                 paystack_reference = $1,
+                 updated_at = NOW()
+             WHERE id = $2
+                 RETURNING *`,
             [reference, orderId]
         );
 
@@ -187,7 +211,7 @@ const markOrderAsPaid = async (orderId, reference) => {
         // 2. Notify the customer
         await client.query(
             `INSERT INTO notifications (user_id, title, message, type, link)
-       VALUES ($1, $2, $3, $4, $5)`,
+             VALUES ($1, $2, $3, $4, $5)`,
             [
                 order.user_id,
                 'Payment Confirmed! 🎉',
@@ -200,17 +224,17 @@ const markOrderAsPaid = async (orderId, reference) => {
         // 3. Notify each vendor whose items are in this order
         const vendorItemsResult = await client.query(
             `SELECT DISTINCT v.user_id, v.store_name, o.order_number
-       FROM order_items oi
-       JOIN vendors v ON oi.vendor_id = v.id
-       JOIN orders o ON oi.order_id = o.id
-       WHERE oi.order_id = $1`,
+             FROM order_items oi
+                      JOIN vendors v ON oi.vendor_id = v.id
+                      JOIN orders o ON oi.order_id = o.id
+             WHERE oi.order_id = $1`,
             [orderId]
         );
 
         for (const vendorItem of vendorItemsResult.rows) {
             await client.query(
                 `INSERT INTO notifications (user_id, title, message, type, link)
-         VALUES ($1, $2, $3, $4, $5)`,
+                 VALUES ($1, $2, $3, $4, $5)`,
                 [
                     vendorItem.user_id,
                     'New Order Received! 🛍️',

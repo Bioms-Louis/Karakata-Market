@@ -18,7 +18,7 @@ import { ChevronLeft, MapPin, Phone, User, CreditCard, CheckCircle } from 'lucid
 import { JSX, useState } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 
-import { getCart, createOrder, getShippingFee, initializePayment } from '@/src/api';
+import { getCart, createOrder, getShippingFee, initializePayment, verifyPayment } from '@/src/api';
 import { formatCurrency } from '@/src/utils/formatCurrency';
 import { Colors } from '@/constants/colors';
 import useAuthStore from '@/src/store/authStore';
@@ -124,29 +124,37 @@ export default function CheckoutScreen(): JSX.Element {
 
             console.log('Opening Paystack URL:', authorizationUrl);
 
-            // 3. Open Paystack in WebBrowser
-            const result = await WebBrowser.openAuthSessionAsync(authorizationUrl);
+            // 3. Open Paystack in WebBrowser (resolves when browser is dismissed)
+            await WebBrowser.openBrowserAsync(authorizationUrl);
 
-            if (result.type === 'success' && result.url) {
-                // Payment completed or user returned
-                console.log('Payment session completed. URL:', result.url);
+            // 4. Browser closed — verify payment status with backend
+            console.log('Browser dismissed. Verifying payment for order:', order.order_number);
+            try {
+                const verifyRes = await verifyPayment(order.order_number);
+                const paidOrder = verifyRes.data?.data?.order;
 
-                // Clear cart and show success
-                queryClient.invalidateQueries({ queryKey: ['cart'] });
-                queryClient.invalidateQueries({ queryKey: ['orders'] });
-                resetCart();
+                if (paidOrder?.payment_status === 'paid') {
+                    queryClient.invalidateQueries({ queryKey: ['cart'] });
+                    queryClient.invalidateQueries({ queryKey: ['orders'] });
+                    resetCart();
 
-                setSuccessOrder({
-                    id: order.id,
-                    order_number: order.order_number || order.id
-                });
-
-                Alert.alert('Success', 'Your order has been placed! Complete payment in the browser.');
-            } else {
+                    setSuccessOrder({
+                        id: order.id,
+                        order_number: order.order_number || order.id,
+                    });
+                } else {
+                    Alert.alert(
+                        'Payment Not Confirmed',
+                        'Payment was not completed. Your order is saved — you can retry payment from your orders.',
+                        [{ text: 'View Orders', onPress: () => router.replace('/(tabs)/orders') }]
+                    );
+                }
+            } catch {
+                // Verification failed — send user to orders to check status
                 Alert.alert(
-                    'Payment Cancelled',
-                    'You cancelled the payment. Your order was created but not paid.',
-                    [{ text: 'OK', onPress: () => router.replace('/(tabs)/orders') }]
+                    'Check Your Orders',
+                    'Could not confirm payment status. Please check your orders.',
+                    [{ text: 'View Orders', onPress: () => router.replace('/(tabs)/orders') }]
                 );
             }
         } catch (err: any) {

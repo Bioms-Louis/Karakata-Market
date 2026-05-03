@@ -20,7 +20,7 @@ const PaymentCallbackPage = () => {
 
   // Auto-redirect to orders after success
   useEffect(() => {
-    if (data?.status === 'success' || data?.payment_status === 'paid') {
+    if (data?.order?.payment_status === 'paid') {
       const timer = setTimeout(() => {
         navigate('/orders');
       }, 4000);
@@ -77,8 +77,7 @@ const PaymentCallbackPage = () => {
   }
 
   // ── Error / Failed ─────────────────────────
-  const isSuccess = !isError &&
-    (data?.status === 'success' || data?.payment_status === 'paid');
+  const isSuccess = !isError && data?.order?.payment_status === 'paid';
 
   if (isError || !isSuccess) {
     return (
@@ -141,12 +140,12 @@ const PaymentCallbackPage = () => {
           Your order has been confirmed and the vendor has been notified.
         </p>
 
-        {data?.order_number && (
+        {data?.order?.order_number && (
           <div className="my-5 p-4 bg-gray-50 rounded-2xl">
             <p className="text-xs text-gray-500 mb-1">Order Number</p>
             <p className="text-lg font-extrabold"
                style={{ color: '#3c1a5b' }}>
-              {data.order_number}
+              {data.order.order_number}
             </p>
           </div>
         )}
