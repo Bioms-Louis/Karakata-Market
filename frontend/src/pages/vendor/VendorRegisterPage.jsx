@@ -188,7 +188,7 @@ const VendorRegisterPage = () => {
           <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4
                           flex items-center justify-between gap-4">
             <p className="text-sm text-yellow-800">
-              Already have a Karakata account?{' '}
+              Already have an account on Karakata Market?{' '}
               <Link to="/login" className="font-bold underline">
                 Log in first
               </Link>
@@ -370,7 +370,7 @@ const VendorRegisterPage = () => {
             <span className="text-sm text-gray-600">
               I agree to Karakata Market's{' '}
               <Link to="/vendor-terms" target="_blank"
-                    className="font-semibold" style={{ color: '#3c1a5b' }}>
+                    className="font-semibold underline cursor-pointer" style={{ color: '#3c1a5b' }}>
                 Vendor Terms & Conditions
               </Link>{' '}
               and understand that my application will be reviewed before
@@ -408,9 +408,9 @@ const VendorRegisterPage = () => {
             )}
           </button>
 
-          <p className="mt-4 text-center text-s text-gray-400">
+          <p className="mt-4 text-center text-sm text-gray-400">
             Already a vendor?{' '}
-            <Link to="/login" className="font-semibold" style={{ color: '#3c1a5b' }}>
+            <Link to="/login" className="font-semibold hover:underline" style={{ color: '#3c1a5b' }}>
               Sign in to your dashboard
             </Link>
           </p>

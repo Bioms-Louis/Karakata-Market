@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle, ArrowLeft } from 'lucide-react';
 import { loginUser } from '../../api/auth.api';
 import useAuthStore from '../../store/authStore';
 import logo from '../../assets/logo.png';
@@ -194,7 +194,7 @@ const LoginPage = () => {
                     </svg>
                     Signing in...
                   </span>
-                ) : 'Sign In'}
+                ) : 'Login'}
               </button>
 
             </form>
@@ -207,7 +207,18 @@ const LoginPage = () => {
               className="font-semibold hover:underline"
               style={{ color: '#3c1a5b' }}
             >
-              Create one free
+              Sign Up
+            </Link>
+          </p>
+
+          <p className="text-center mt-10 text-sm text-gray-500">
+            <Link
+                to="/"
+                className="font-semibold hover:underline inline-flex items-center gap-2"
+                style={{ color: '#3c1a5b' }}
+            >
+              <ArrowLeft size={14} />
+              Back to home
             </Link>
           </p>
 

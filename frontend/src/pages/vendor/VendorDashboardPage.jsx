@@ -150,13 +150,7 @@ const VendorDashboardPage = () => {
             to: '/vendor/products/new',
             icon: <Plus size={20} />,
             desc: 'List a new item'
-          },
-          // {
-          //   label: 'View Store',
-          //   to: `/vendors/${data?.vendorId}`,
-          //   icon: <Eye size={20} />,
-          //   desc: 'See your public profile'
-          // },
+          }
         ].map((action) => (
           <Link
             key={action.label}

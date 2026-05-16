@@ -349,23 +349,23 @@ const allCategories = buildAndFlatten(categoriesData);
                 </Field>
               </div>
 
-              <label className="flex items-center gap-3 cursor-pointer p-4
-                                rounded-xl border border-gray-200
-                                hover:bg-gray-50 transition-colors">
-                <input
-                  type="checkbox"
-                  className="w-5 h-5 accent-purple-700"
-                  {...register('isFeatured')}
-                />
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">
-                    Mark as Featured Product
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Featured products appear on the homepage
-                  </p>
-                </div>
-              </label>
+              {/*<label className="flex items-center gap-3 cursor-pointer p-4*/}
+              {/*                  rounded-xl border border-gray-200*/}
+              {/*                  hover:bg-gray-50 transition-colors">*/}
+              {/*  <input*/}
+              {/*    type="checkbox"*/}
+              {/*    className="w-5 h-5 accent-purple-700"*/}
+              {/*    {...register('isFeatured')}*/}
+              {/*  />*/}
+              {/*  <div>*/}
+              {/*    <p className="text-sm font-semibold text-gray-900">*/}
+              {/*      Mark as Featured Product*/}
+              {/*    </p>*/}
+              {/*    <p className="text-xs text-gray-500">*/}
+              {/*      Featured products appear on the homepage*/}
+              {/*    </p>*/}
+              {/*  </div>*/}
+              {/*</label>*/}
             </div>
           </Section>
 

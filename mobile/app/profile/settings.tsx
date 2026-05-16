@@ -126,7 +126,6 @@ export default function EditProfileScreen(): JSX.Element {
                                            error={errors.firstName?.message}>
                                         <Controller
                                             control={control} name="firstName"
-                                            rules={{ required: 'First name is required' }}
                                             render={({ field: { onChange, value } }) => (
                                                 <TextInput
                                                     style={styles.input}
@@ -144,7 +143,6 @@ export default function EditProfileScreen(): JSX.Element {
                                            error={errors.lastName?.message}>
                                         <Controller
                                             control={control} name="lastName"
-                                            rules={{ required: 'Last name is required' }}
                                             render={({ field: { onChange, value } }) => (
                                                 <TextInput
                                                     style={styles.input}

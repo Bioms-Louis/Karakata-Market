@@ -41,7 +41,6 @@ const Footer = () => {
                   { name: 'My Orders', path: '/orders' },
                   { name: 'Profile', path: '/profile' },
                   { name: 'Become a Vendor', path: '/become-vendor' },
-                  { name: 'Notifications', path: '/notifications' },
                 ]
               },
               {

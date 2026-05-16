@@ -13,6 +13,8 @@ import { addToCart } from '../../api/cart.api';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { formatDate } from '../../utils/formatDate';
 import useAuthStore from '../../store/authStore';
+import useCartStore from '../../store/cartStore';
+import useGuestCartStore from '../../store/guestCartStore';
 import Spinner from '../../components/common/Spinner';
 import WishlistButton from '../../components/common/WishlistButton';
 import ProductCard from '../../components/products/ProductCard';
@@ -528,6 +530,8 @@ const ProductDetailPage = () => {
   const navigate     = useNavigate();
   const queryClient  = useQueryClient();
   const { isAuthenticated } = useAuthStore();
+  const addGuestItem = useGuestCartStore((s) => s.addItem);
+  const openCart = useCartStore((s) => s.openCart);
 
   const [quantity, setQuantity]               = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);

@@ -6,10 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="0f62aee3-43b4-497a-b547-397b423c4280" name="Changes" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/payments/payments.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/payments/payments.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/customer/CheckoutPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/customer/CheckoutPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/customer/PaymentCallbackPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/customer/PaymentCallbackPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/checkout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/vendors/vendors.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/vendors/vendors.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/slides/KM.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useCart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/HomePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/ProductDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/ProductDetailPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/vendor/VendorAddProductPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/vendor/VendorAddProductPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/vendor/VendorDashboardPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/vendor/VendorDashboardPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/vendor/VendorOrdersPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/vendor/VendorOrdersPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/profile/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/profile/settings.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile/src/api/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/api/axios.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +25,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="229" />
+    <option name="cachedIndexableFilesCount" value="230" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -134,7 +141,16 @@
       <workItem from="1777536573184" duration="1350000" />
       <workItem from="1777574721507" duration="2486000" />
       <workItem from="1777613713567" duration="4408000" />
-      <workItem from="1777848902835" duration="1578000" />
+      <workItem from="1777848902835" duration="2359000" />
+      <workItem from="1777882595496" duration="1278000" />
+      <workItem from="1778079774441" duration="832000" />
+      <workItem from="1778226185426" duration="1254000" />
+      <workItem from="1778232803689" duration="1079000" />
+      <workItem from="1778505084774" duration="6084000" />
+      <workItem from="1778531650888" duration="2048000" />
+      <workItem from="1778576474760" duration="1822000" />
+      <workItem from="1778578814330" duration="1203000" />
+      <workItem from="1778662434721" duration="6562000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />

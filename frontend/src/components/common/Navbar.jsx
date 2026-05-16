@@ -620,6 +620,9 @@ const Navbar = () => {
           <span className="mx-4 opacity-40">|</span>
           <Mail className="inline mr-1.5" size={15} />
           <a href="mailto:contact@karakata.market" className="hover:text-secondary">contact@karakata.market</a>
+          <span className="mx-4 opacity-40">|</span>
+          <ShoppingBag className="inline mr-1.5" size={15} />
+          <Link to="/become-vendor" className="hover:text-secondary">Become a Seller</Link>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -706,7 +709,7 @@ const Navbar = () => {
                           <div className="py-1">
                             {(user?.role === 'admin' || user?.role === 'vendor') && (
                               <Link to={getDashboardLink()} onClick={() => setIsProfileOpen(false)}
-                                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                    target="_blank" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                                 <LayoutDashboard size={15} className="text-gray-400" />
                                 {user?.role === 'admin' ? 'Admin Panel' : 'Vendor Dashboard'}
                               </Link>
@@ -738,7 +741,7 @@ const Navbar = () => {
               ) : (
                 <div className="flex items-center gap-2 ml-1">
                   <Link to="/login" className="px-4 py-2 rounded-xl text-sm font-medium text-purple-200 hover:text-white transition-colors">
-                    Sign in
+                    Login
                   </Link>
                   <Link to="/register" className="px-4 py-2 rounded-xl text-sm font-bold transition-all hover:scale-105"
                         style={{ backgroundColor: '#ffc70e', color: '#3c1a5b' }}>

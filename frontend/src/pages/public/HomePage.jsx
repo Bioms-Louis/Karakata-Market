@@ -11,10 +11,10 @@ import { getCategories } from '../../api/categories.api';
 import ProductCard from '../../components/products/ProductCard';
 
 // Slide images
-import slide1 from '../../assets/slides/slide1.png';
-import slide2 from '../../assets/slides/slide2.png';
-import slide3 from '../../assets/slides/slide3.png';
-import slide4 from '../../assets/slides/slide4.png';
+import slide1 from '../../assets/slides/Fashion.png';
+import slide2 from '../../assets/slides/Gadgets.png';
+import slide3 from '../../assets/slides/Beauty.png';
+import slide4 from '../../assets/slides/Automobile.png';
 
 // CAROUSEL
 const FALLBACK_SLIDES = [

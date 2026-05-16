@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff, CheckCircle } from 'lucide-react';
+import {Eye, EyeOff, CheckCircle, ArrowLeft} from 'lucide-react';
 import { registerUser } from '../../api/auth.api';
 import useAuthStore from '../../store/authStore';
 import logo from '../../assets/logo.png';
@@ -245,11 +245,15 @@ const RegisterPage = () => {
               <p className="text-xs text-gray-400 leading-relaxed">
                 By creating an account you agree to our{' '}
                 <span className="underline cursor-pointer" style={{ color: '#3c1a5b' }}>
-                  Terms of Service
+                  <Link to="/terms" target="_blank">
+                    Terms of Service
+                  </Link>
                 </span>{' '}
                 and{' '}
                 <span className="underline cursor-pointer" style={{ color: '#3c1a5b' }}>
-                  Privacy Policy
+                  <Link to="/privacy" target="_blank">
+                    Privacy Policy
+                  </Link>
                 </span>.
               </p>
 
@@ -275,7 +279,7 @@ const RegisterPage = () => {
                     </svg>
                     Creating account...
                   </span>
-                ) : 'Create Free Account'}
+                ) : 'Create Account'}
               </button>
 
             </form>
@@ -286,7 +290,18 @@ const RegisterPage = () => {
             <Link to="/login"
                   className="font-semibold hover:underline"
                   style={{ color: '#3c1a5b' }}>
-              Sign in
+              Login
+            </Link>
+          </p>
+
+          <p className="text-center mt-10 text-sm text-gray-500">
+            <Link
+                to="/"
+                className="font-semibold hover:underline inline-flex items-center gap-2"
+                style={{ color: '#3c1a5b' }}
+            >
+              <ArrowLeft size={14} />
+              Back to home
             </Link>
           </p>
 
